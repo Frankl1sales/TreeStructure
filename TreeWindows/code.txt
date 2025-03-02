@@ -1,0 +1,117 @@
+code HTML 
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Árvores</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Editor de Estruturas de Árvores</h1>
+  <div class="editor-container">
+    <textarea id="code-editor" placeholder="Escreva seu código JavaScript aqui..."></textarea>
+    <button id="run-code">Executar Código</button>
+  </div>
+  <div id="output-container">
+    <h2>Visualização da Árvore</h2>
+    <div id="tree-output"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+code CSS
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f9;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+}
+
+.editor-container {
+  margin: 20px auto;
+  width: 80%;
+}
+
+textarea {
+  width: 100%;
+  height: 200px;
+  padding: 10px;
+  font-size: 16px;
+  font-family: monospace;
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#output-container {
+  margin: 20px auto;
+  width: 80%;
+}
+
+#tree-output {
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #ccc;
+  min-height: 200px;
+}
+
+
+Code JS
+
+document.getElementById("run-code").addEventListener("click", () => {
+  const userCode = document.getElementById("code-editor").value;
+  const outputDiv = document.getElementById("tree-output");
+
+  try {
+    // Limpa a saída anterior
+    outputDiv.innerHTML = "";
+
+    // Cria uma função anônima e executa o código do usuário
+    const result = new Function(userCode);
+    const tree = result();
+
+    // Renderiza a árvore no elemento de saída
+    if (tree) {
+      renderTree(tree, outputDiv);
+    }
+  } catch (error) {
+    outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
+  }
+});
+
+function renderTree(tree, container) {
+  const ul = document.createElement("ul");
+
+  function buildTree(node, parentUl) {
+    if (!node) return;
+
+    const li = document.createElement("li");
+    li.textContent = node.value || "Node";
+    parentUl.appendChild(li);
+
+    if (node.children && node.children.length > 0) {
+      const childUl = document.createElement("ul");
+      li.appendChild(childUl);
+      node.children.forEach((child) => buildTree(child, childUl));
+    }
+  }
+
+  buildTree(tree, ul);
+  container.appendChild(ul);
+}
+
