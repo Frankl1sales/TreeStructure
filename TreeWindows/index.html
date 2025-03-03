@@ -9,13 +9,63 @@
 <body>
   <h1>Editor de Estruturas de Árvores</h1>
   <div class="editor-container">
-    <textarea id="code-editor" placeholder="Escreva seu código JavaScript aqui..."></textarea>
+    <textarea id="code-editor" placeholder="Escreva seu código TypeScript aqui..."></textarea>
     <button id="run-code">Executar Código</button>
   </div>
   <div id="output-container">
     <h2>Visualização da Árvore</h2>
     <div id="tree-output"></div>
   </div>
-  <script src="script.js"></script>
+  
+  <!-- Carregando o TypeScript Compiler localmente -->
+  <script src="https://cdn.jsdelivr.net/npm/typescript@4.9.4/lib/typescript.js"></script>
+  
+  <script>
+    document.getElementById("run-code")?.addEventListener("click", () => {
+      const userCode = document.getElementById("code-editor")?.value;
+      const outputDiv = document.getElementById("tree-output");
+
+      if (userCode && outputDiv) {
+        try {
+          // Limpa a árvore existente antes de renderizar uma nova
+          outputDiv.innerHTML = "";
+
+          // Compila o código TypeScript para JavaScript
+          const compiledCode = ts.transpile(userCode);
+          
+          // Executa o código compilado utilizando eval
+          const result = eval(compiledCode);
+          
+          // Renderiza a árvore no elemento de saída
+          if (result) {
+            renderTree(result, outputDiv);
+          }
+        } catch (error) {
+          outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
+        }
+      }
+    });
+
+    function renderTree(tree, container) {
+      const ul = document.createElement("ul");
+
+      function buildTree(node, parentUl) {
+        if (!node) return;
+
+        const li = document.createElement("li");
+        li.textContent = node.value || "Node";
+        parentUl.appendChild(li);
+
+        if (node.children && node.children.length > 0) {
+          const childUl = document.createElement("ul");
+          li.appendChild(childUl);
+          node.children.forEach((child) => buildTree(child, childUl));
+        }
+      }
+
+      buildTree(tree, ul);
+      container.appendChild(ul);
+    }
+  </script>
 </body>
 </html>
