@@ -1,34 +1,46 @@
-/*
-Live Code Editor 
-By: Coding Design
+document.getElementById("run-code").addEventListener("click", () => {
+  const userCode = document.getElementById("code-editor").value;
+  const outputDiv = document.getElementById("tree-output");
 
-You can do whatever you want with the code. However if you love my content, you can subscribed my YouTube Channel
-🌎link: www.youtube.com/codingdesign
+  try {
+    // Limpa a saída anterior
+    outputDiv.innerHTML = "";
 
-*/
+    // Cria uma função anônima e executa o código do usuário
+    const result = new Function(userCode);
+    const tree = result();
 
-const html_code = document.querySelector('.html-code textarea');
-const css_code = document.querySelector('.css-code textarea');
-const js_code = document.querySelector('.js-code textarea');
-const result = document.querySelector('#result');
+    // Renderiza a árvore no elemento de saída
+    if (tree) {
+      renderTree(tree, outputDiv);
+    }
+  } catch (error) {
+    outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
+  }
+});
 
-function run() {
-    // Storing data in Local Storage
-    localStorage.setItem('html_code', html_code.value);
-    localStorage.setItem('css_code', css_code.value);
-    localStorage.setItem('js_code', js_code.value);
+function renderTree(tree, container) {
+  const ul = document.createElement("ul");
 
-    // Executing HTML, CSS & JS code
-    result.contentDocument.body.innerHTML = `<style>${localStorage.css_code}</style>` + localStorage.html_code;
-    result.contentWindow.eval(localStorage.js_code);
+  function buildTree(node, parentUl) {
+    if (!node) return;
+
+    const li = document.createElement("li");
+    li.textContent = node.value || "Node";
+    parentUl.appendChild(li);
+
+    if (node.children && node.children.length > 0) {
+      const childUl = document.createElement("ul");
+      li.appendChild(childUl);
+      node.children.forEach((child) => buildTree(child, childUl));
+    }
+  }
+
+  buildTree(tree, ul);
+  container.appendChild(ul);
 }
 
-// Checking if user is typing anything in input field
-html_code.onkeyup = () => run();
-css_code.onkeyup = () => run();
-js_code.onkeyup = () => run();
-
-// Accessing data stored in Local Storage. To make it more advanced you could check if there is any data stored in Local Storage.
-html_code.value = localStorage.html_code;
-css_code.value = localStorage.css_code;
-js_code.value = localStorage.js_code;
+document.getElementById("run-code").addEventListener("click", () => {
+  const outputDiv = document.getElementById("tree-output");
+  renderTree(root, outputDiv);
+});

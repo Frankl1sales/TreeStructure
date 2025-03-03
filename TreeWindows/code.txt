@@ -115,3 +115,61 @@ function renderTree(tree, container) {
   container.appendChild(ul);
 }
 
+
+
+código para gerar a arvore
+
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.children = [];
+  }
+
+  addChild(child) {
+    this.children.push(child);
+  }
+}
+
+function renderTree(tree, container) {
+  const ul = document.createElement("ul");
+
+  function buildTree(node, parentUl) {
+    if (!node) return;
+
+    const li = document.createElement("li");
+    li.textContent = node.value || "Node";
+    parentUl.appendChild(li);
+
+    if (node.children && node.children.length > 0) {
+      const childUl = document.createElement("ul");
+      li.appendChild(childUl);
+      node.children.forEach((child) => buildTree(child, childUl));
+    }
+  }
+
+  buildTree(tree, ul);
+  container.innerHTML = "";
+  container.appendChild(ul);
+}
+
+// Criando a árvore
+const root = new TreeNode("Raiz");
+const child1 = new TreeNode("Filho 1");
+const child2 = new TreeNode("Filho 2");
+const grandChild1 = new TreeNode("Neto 1");
+const grandChild2 = new TreeNode("Neto 2");
+
+child1.addChild(grandChild1);
+child1.addChild(grandChild2);
+root.addChild(child1);
+root.addChild(child2);
+
+// Exibindo a árvore na div tree-output
+document.getElementById("run-code").addEventListener("click", () => {
+  const outputDiv = document.getElementById("tree-output");
+  renderTree(root, outputDiv);
+});
+
+
+
+
