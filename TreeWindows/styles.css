@@ -10,37 +10,69 @@ h1 {
   text-align: center;
 }
 
-.editor-container {
+.container {
+  display: flex; /* Layout lado a lado */
+  justify-content: space-around;
+  align-items: flex-start;
+  width: 100%; /* Garantir que ocupe toda a largura disponível */
+  max-width: 1200px;
   margin: 20px auto;
-  width: 80%;
+}
+
+.editor-container, #output-container {
+  flex: 1;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.editor-container {
+  margin-right: 20px; /* Espaço entre editor e visualização */
+  border: 2px solid #ccc; /* Borda clara para o editor */
 }
 
 textarea {
   width: 100%;
-  min-height: 200px; /* Altura mínima */
-  height: auto;
-  resize: vertical; /* Permite redimensionamento vertical */
+  height: 400px; /* Aumentar a altura para o editor de código */
+  resize: vertical;
   padding: 10px;
   font-size: 16px;
   font-family: monospace;
+  border: none; /* Remover a borda do textarea */
+  box-sizing: border-box; /* Certificar-se de que o padding não afete a largura */
 }
-
 
 button {
   margin-top: 10px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
+  background: #69b3a2;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
 
-#output-container {
-  margin: 20px auto;
-  width: 80%;
+button:hover {
+  background: #cc813f;
 }
 
 #tree-output {
   padding: 10px;
-  background: #fff;
-  border: 1px solid #ccc;
   min-height: 200px;
+  overflow: auto;
+  text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .editor-container {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 }
