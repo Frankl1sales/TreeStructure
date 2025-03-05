@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade 1 - O que é uma Árvore?</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    .question {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background-color: #45a049;
+    }
+    .celebration {
+      display: none;
+      font-size: 24px;
+      color: gold;
+      margin-top: 20px;
+    }
+    @keyframes fireworks {
+      0% { transform: scale(0.5); opacity: 0.5; }
+      50% { transform: scale(1.5); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+    .firework {
+      display: inline-block;
+      animation: fireworks 1s ease-out;
+    }
+    #score {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .correct-answer {
+      color: green;
+      font-weight: bold;
+    }
+    .incorrect-answer {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Atividade 1 - O que é uma Árvore?</h1>
+  <p id="score">Acertos: 0</p>
+  
+  <!-- Questões -->
+  <div class="question" id="question1">
+    <p>1. O que é uma árvore em ciência da computação?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'Uma estrutura hierárquica de dados', 'question1')">Um tipo de animal</button>
+      <button onclick="checkAnswer(this, false, 'Uma estrutura hierárquica de dados', 'question1')">Uma estrutura linear de dados</button>
+      <button onclick="checkAnswer(this, true, 'Uma estrutura hierárquica de dados', 'question1')">Uma estrutura hierárquica de dados</button>
+      <button onclick="checkAnswer(this, false, 'Uma estrutura hierárquica de dados', 'question1')">Um algoritmo de ordenação</button>
+    </div>
+  </div>
+
+  <div class="question" id="question2">
+    <p>2. Qual das seguintes características pertence a uma árvore binária?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'Cada nó pode ter no máximo dois filhos', 'question2')">Cada nó pode ter três filhos</button>
+      <button onclick="checkAnswer(this, true, 'Cada nó pode ter no máximo dois filhos', 'question2')">Cada nó pode ter no máximo dois filhos</button>
+      <button onclick="checkAnswer(this, false, 'Cada nó pode ter no máximo dois filhos', 'question2')">Os nós são ordenados de forma aleatória</button>
+      <button onclick="checkAnswer(this, false, 'Cada nó pode ter no máximo dois filhos', 'question2')">Ela sempre tem um número ímpar de nós</button>
+    </div>
+  </div>
+
+  <div class="question" id="question3">
+    <p>3. O que é uma raiz em uma árvore?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'O nó principal que não tem pai', 'question3')">O nó mais profundo da árvore</button>
+      <button onclick="checkAnswer(this, false, 'O nó principal que não tem pai', 'question3')">Um nó que não tem filhos</button>
+      <button onclick="checkAnswer(this, true, 'O nó principal que não tem pai', 'question3')">O nó principal que não tem pai</button>
+      <button onclick="checkAnswer(this, false, 'O nó principal que não tem pai', 'question3')">O nó com maior valor</button>
+    </div>
+  </div>
+
+  <div class="celebration" id="celebration">
+    🎆 Parabéns! Você acertou! 🎆
+  </div>
+
+  <script>
+    let score = parseInt(localStorage.getItem("quizScore")) || 0;
+    document.getElementById("score").innerText = "Acertos: " + score;
+
+    function checkAnswer(button, isCorrect, correctAnswer, questionId) {
+      // Verifica se a questão já foi respondida
+      if (localStorage.getItem(questionId)) {
+        return;  // Se a questão já foi respondida, não faz nada
+      }
+
+      // Resetando todas as opções para as cores padrão
+      const buttons = button.parentElement.getElementsByTagName('button');
+      for (let btn of buttons) {
+        btn.style.backgroundColor = "#4CAF50";
+      }
+
+      // Se a resposta estiver errada
+      if (!isCorrect) {
+        button.style.backgroundColor = "red";
+        showCorrectAnswer(button.parentElement, correctAnswer);
+        setTimeout(() => {
+          button.style.backgroundColor = "#4CAF50";
+        }, 1000);
+      } else {
+        // Se estiver certa
+        document.getElementById("celebration").style.display = "block";
+        button.style.backgroundColor = "gold";
+        score++;
+        localStorage.setItem("quizScore", score);
+        document.getElementById("score").innerText = "Acertos: " + score;
+        setTimeout(() => {
+          document.getElementById("celebration").style.display = "none";
+          button.style.backgroundColor = "#4CAF50";
+        }, 2000);
+      }
+
+      // Marcar a questão como respondida no localStorage
+      localStorage.setItem(questionId, "answered");
+    }
+
+    function showCorrectAnswer(options, correctAnswer) {
+      for (let option of options.children) {
+        if (option.innerText === correctAnswer) {
+          option.style.backgroundColor = "green";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

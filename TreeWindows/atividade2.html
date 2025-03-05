@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade 2 - Propriedades das Árvores</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+    .question {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      transition: background 0.3s;
+    }
+    .options button:hover {
+      background-color: #45a049;
+    }
+    .celebration {
+      display: none;
+      font-size: 24px;
+      color: gold;
+      margin-top: 20px;
+    }
+    #score {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Atividade 2 - Propriedades das Árvores</h1>
+  <p id="score">Acertos: 0</p>
+  
+  <div class="question" id="question1">
+    <p>1. Qual é a principal característica de uma árvore binária de busca (BST)?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false)">Os filhos de um nó podem ter qualquer valor</button>
+      <button onclick="checkAnswer(this, true)">O filho esquerdo tem valor menor e o direito tem valor maior</button>
+      <button onclick="checkAnswer(this, false)">Todos os nós têm no máximo um filho</button>
+      <button onclick="checkAnswer(this, false)">Os valores dos nós são sempre iguais</button>
+    </div>
+  </div>
+
+  <div class="question" id="question2">
+    <p>2. Qual das opções abaixo representa um percurso em pré-ordem?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, true)">Visita a raiz, depois a esquerda e depois a direita</button>
+      <button onclick="checkAnswer(this, false)">Visita a esquerda, depois a raiz e depois a direita</button>
+      <button onclick="checkAnswer(this, false)">Visita a direita, depois a raiz e depois a esquerda</button>
+      <button onclick="checkAnswer(this, false)">Não há uma ordem específica</button>
+    </div>
+  </div>
+
+  <div class="question" id="question3">
+    <p>3. Qual é a vantagem de usar uma árvore binária de busca (BST) para armazenar dados?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false)">Garante que os elementos fiquem ordenados automaticamente</button>
+      <button onclick="checkAnswer(this, true)">Permite buscas rápidas devido à sua estrutura hierárquica</button>
+      <button onclick="checkAnswer(this, false)">Todos os elementos são inseridos na mesma posição</button>
+      <button onclick="checkAnswer(this, false)">Não possui vantagem em relação a uma lista</button>
+    </div>
+  </div>
+
+  <div class="question" id="question4">
+    <p>4. O que é um nó folha em uma árvore?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false)">O nó raiz</button>
+      <button onclick="checkAnswer(this, true)">Um nó que não tem filhos</button>
+      <button onclick="checkAnswer(this, false)">Um nó intermediário</button>
+      <button onclick="checkAnswer(this, false)">Um nó que tem exatamente um filho</button>
+    </div>
+  </div>
+
+  <div class="question" id="question5">
+    <p>5. O que define a altura de uma árvore?</p>
+    <div class="options">
+      <button onclick="checkAnswer(this, false)">O número total de nós</button>
+      <button onclick="checkAnswer(this, true)">O comprimento do caminho mais longo da raiz até uma folha</button>
+      <button onclick="checkAnswer(this, false)">O número de folhas</button>
+      <button onclick="checkAnswer(this, false)">A profundidade do nó raiz</button>
+    </div>
+  </div>
+
+  <div class="celebration" id="celebration">
+    🎆 Parabéns! Você acertou! 🎆
+  </div>
+
+  <script>
+    let score = parseInt(localStorage.getItem("quizScore")) || 0;
+    document.getElementById("score").innerText = "Acertos: " + score;
+
+    function checkAnswer(button, isCorrect) {
+      if (isCorrect) {
+        score++;
+        document.getElementById("score").innerText = "Acertos: " + score;
+        localStorage.setItem("quizScore", score);
+        showCelebration();
+      }
+      disableButtons(button.parentNode);
+    }
+
+    function disableButtons(optionsDiv) {
+      let buttons = optionsDiv.getElementsByTagName("button");
+      for (let btn of buttons) {
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
+      }
+    }
+
+    function showCelebration() {
+      let celebration = document.getElementById("celebration");
+      celebration.style.display = "block";
+      setTimeout(() => {
+        celebration.style.display = "none";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
