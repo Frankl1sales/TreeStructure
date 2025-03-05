@@ -289,12 +289,31 @@ a:hover {
 #activity-list {
   display: flex;
   flex-direction: row; /* Alinha os itens horizontalmente */
-  justify-content: center; /* Centraliza os itens no eixo horizontal */
-  gap: 20px; /* Adiciona o espaço entre os itens */
-  list-style: none;
+  justify-content: center; /* Centraliza os itens */
+  gap: 20px; /* Espaço entre os itens */
+  list-style: none; /* Remove os estilos padrão da lista */
+  flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha em telas menores */
   padding: 0;
 }
 
 #activity-list li {
-  margin: 0;
+  background-color: #f0f0f0; /* Cor de fundo para melhor visualização */
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-align: center;
 }
+
+#activity-list a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #f0f0f0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  #activity-list {
+      flex-direction: column; /* Em telas menores, empilhar verticalmente */
+      align-items: center;
+  }
+}
+
