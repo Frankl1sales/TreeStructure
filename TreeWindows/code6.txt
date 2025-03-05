@@ -1,0 +1,92 @@
+class Node {
+    value: string;
+    children: Node[];
+
+    constructor(value: string) {
+        this.value = value;
+        this.children = [];
+    }
+
+    // Método para adicionar um filho
+    addChild(child: Node): void {
+        this.children.push(child);
+    }
+
+    // Método para remover um filho
+    removeChild(value: string): void {
+        this.children = this.children.filter(child => child.value !== value);
+    }
+}
+
+// Função para criar a árvore 
+function createTaxonomyTree(): Node {
+    const animalia = new Node("Animalia");
+
+    const chordata = new Node("Chordata");
+    animalia.addChild(chordata);
+
+    const mammalia = new Node("Mammalia");
+    chordata.addChild(mammalia);
+
+    const primates = new Node("Primates");
+    mammalia.addChild(primates);
+    primates.addChild(new Node("Homo sapiens"));
+
+    const carnivora = new Node("Carnivora");
+    mammalia.addChild(carnivora);
+    carnivora.addChild(new Node("Canis lupus"));
+
+    const aves = new Node("Aves");
+    chordata.addChild(aves);
+
+    const passeriformes = new Node("Passeriformes");
+    aves.addChild(passeriformes);
+    passeriformes.addChild(new Node("Corvus corax"));
+
+    return animalia; // Retorna a árvore completa
+}
+
+// Função para converter a árvore para a estrutura "value" e "children"
+function convertToTreeNode(node: Node): any {
+    return {
+        value: node.value,
+        children: node.children.map(child => convertToTreeNode(child)), // Converte recursivamente os filhos
+    };
+}
+
+// Função de busca
+function searchNode(root: Node, value: string): Node | undefined {
+    if (root.value === value) {
+        return root;
+    }
+    for (const child of root.children) {
+        const found = searchNode(child, value);
+        if (found) {
+            return found;
+        }
+    }
+    return undefined;
+}
+
+// Função para remover um nó da árvore
+function removeNode(root: Node, value: string): void {
+    if (root.children) {
+        root.removeChild(value);
+        root.children.forEach(child => removeNode(child, value));
+    }
+}
+
+// Função que retorna a árvore
+function getTaxonomyTree(): { tree: any } {
+    const taxonomyRoot = createTaxonomyTree();
+    
+    // Remover o nó 'Corvus corax' da árvore
+    removeNode(taxonomyRoot, "Corvus corax");
+
+    return {
+        tree: convertToTreeNode(taxonomyRoot)
+    };
+}
+
+// Chamando a função para obter os dados
+getTaxonomyTree();

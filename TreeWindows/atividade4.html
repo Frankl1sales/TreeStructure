@@ -5,35 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editor de Árvores</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script> <!-- Carregando D3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.2/dist/d3.min.js"></script> <!-- Importa o D3.js -->
 </head>
-
 <body>
   <h1>Editor de Estruturas de Árvores</h1>
-  
-  <div class="container"> <!-- Novo container para organizar o layout -->
+
+  <!-- Descrição da Atividade -->
+  <section class="description">
+    <h2>Descrição da Atividade</h2>
+    <p>Na atividade proposta, você irá construir uma árvore que segue a classificação taxonômica de alguns animais. A árvore será do tipo:</p>
+    <pre><code class="plaintext">
+Animalia
+  └── Chordata
+        ├── Mammalia
+        │     ├── Primates
+        │     │     └── Homo sapiens
+        │     └── Carnivora
+        │           └── Canis lupus
+        └── Aves
+              └── Passeriformes
+                    └── Corvus corax
+    </code></pre>
+
+    <p>O objetivo é validar se a estrutura criada corresponde exatamente à esperada. Utilize o editor para criar sua árvore e clique em "Executar Código" para verificar sua solução.</p>
+  </section>
+
+  <div class="container">
     <div class="editor-container">
       <textarea id="code-editor" placeholder="Escreva seu código TypeScript aqui..."></textarea>
       <button id="run-code">Executar Código</button>
     </div>
-    
+
     <div id="output-container">
       <h2>Visualização da Árvore</h2>
       <div id="tree-output"></div>
+      <div class="celebration" id="celebration" style="display: none;">
+        🎆 Parabéns! Você acertou! 🎆
+      </div>
     </div>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/typescript@4.9.4/lib/typescript.js"></script>
   
   <script>
     document.getElementById("run-code")?.addEventListener("click", () => {
       const userCode = document.getElementById("code-editor")?.value;
       const outputDiv = document.getElementById("tree-output");
+      const celebrationDiv = document.getElementById("celebration");
 
       if (userCode && outputDiv) {
         try {
-          // Limpa a árvore existente antes de renderizar uma nova
-          outputDiv.innerHTML = "";
+          outputDiv.innerHTML = ""; // Limpa a árvore existente antes de renderizar uma nova
+          celebrationDiv.style.display = "none"; // Esconde a celebração se a árvore não estiver correta
 
           // Compila o código TypeScript para JavaScript
           const compiledCode = ts.transpile(userCode);
@@ -41,9 +64,13 @@
           // Executa o código compilado utilizando eval
           const result = eval(compiledCode);
           
-          // Renderiza a árvore no elemento de saída com D3
-          if (result) {
-            renderTreeD3(result, outputDiv);
+          // Validação da árvore gerada
+          if (validateTreeStructure(result)) {
+            outputDiv.innerHTML = "<span style='color: green;'>Árvore válida!</span>";
+            celebrationDiv.style.display = "block"; // Mostra a celebração se a árvore estiver correta
+            renderTreeD3(result, outputDiv); // Renderiza a árvore com D3.js
+          } else {
+            throw new Error("Estrutura inválida. A árvore deve seguir o formato especificado no enunciado.");
           }
         } catch (error) {
           outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
@@ -51,22 +78,60 @@
       }
     });
 
+    // Função para validar a árvore com base no enunciado
+    function validateTreeStructure(tree) {
+      const expectedStructure = {
+        value: "Animalia",
+        children: [
+          {
+            value: "Chordata",
+            children: [
+              {
+                value: "Mammalia",
+                children: [
+                  { value: "Primates", children: [{ value: "Homo sapiens", children: [] }] },
+                  { value: "Carnivora", children: [{ value: "Canis lupus", children: [] }] }
+                ]
+              },
+              {
+                value: "Aves",
+                children: [
+                  { value: "Passeriformes", children: [{ value: "Corvus corax", children: [] }] }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+
+      function compareNodes(node, expectedNode) {
+        if (node.value !== expectedNode.value) return false;
+        if (node.children.length !== expectedNode.children.length) return false;
+
+        for (let i = 0; i < node.children.length; i++) {
+          if (!compareNodes(node.children[i], expectedNode.children[i])) return false;
+        }
+        return true;
+      }
+
+      return compareNodes(tree, expectedStructure);
+    }
+
     // Função para renderizar a árvore com D3.js
     function renderTreeD3(tree, container) {
       const width = 600;
       const height = 300;
-      const verticalOffset = 50; // Ajuste conforme necessário
+      const verticalOffset = 50;
 
       const svg = d3.select(container)
         .append("svg")
         .attr("width", width)
         .attr("height", height + verticalOffset);
 
-      const root = d3.hierarchy(tree); // Usando a estrutura hierárquica do D3
-
+      const root = d3.hierarchy(tree);
       const treeLayout = d3.tree().size([width, height - 100]);
 
-      treeLayout(root); // Calculando as posições dos nós
+      treeLayout(root);
 
       // Adiciona os links entre os nós
       svg.selectAll(".link")
@@ -75,9 +140,9 @@
         .append("line")
         .attr("class", "link")
         .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y  + verticalOffset)
+        .attr("y1", d => d.source.y + verticalOffset)
         .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y  + verticalOffset)
+        .attr("y2", d => d.target.y + verticalOffset)
         .attr("stroke", "#ccc");
 
       // Adiciona os nós
