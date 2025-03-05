@@ -11,6 +11,49 @@
 <body>
   <h1>Editor de Estruturas de Árvores</h1>
   
+  <!-- Descrição da Atividade -->
+  <section class="description">
+    <h2>Descrição da Atividade</h2>
+    <p>Nesta atividade, você irá trabalhar com a estrutura de árvore que foi abordada na atividade 3. O objetivo é adaptar o código para permitir a remoção de nós específicos da árvore.</p>
+
+    <p>Siga as instruções abaixo para completar o código no editor. Após terminar, clique no botão "Executar" para visualizar a árvore gerada.</p>
+
+    <h3>1. Adapte o Construtor</h3>
+    <p>Adicione o seguinte código no construtor da sua árvore:</p>
+    <pre><code class="typescript" id="example-code">
+  // Método para remover um filho
+  removeChild(value: string): void {
+      this.children = this.children.filter(child => child.value !== value);
+  }
+    </code></pre>
+
+    <h3>2. Função para Remover um Nó</h3>
+    <p>Agora, crie a função que irá remover um nó específico da árvore:</p>
+    <pre><code class="typescript" id="create-tree-code">
+  // Função para remover um nó da árvore
+  function removeNode(root: Node, value: string): void {
+      if (root.children) {
+          root.removeChild(value);
+          root.children.forEach(child => removeNode(child, value));
+      }
+  }
+    </code></pre>
+
+    <h3>3. Modifique a Função <code>getTaxonomyTree()</code></h3>
+    <p>Esta função é responsável por retornar a estrutura da árvore. Você precisa adicionar o método <code>removeNode</code> para remover um nó específico da árvore.</p>
+    <pre><code class="typescript" id="convert-code">
+  // Remover o nó 'Corvus corax' da árvore
+  removeNode(taxonomyRoot, "Corvus corax");
+    </code></pre>
+
+    <h3>4. Executando o Código</h3>
+    <p>Após adaptar o código, o próximo passo é criar a árvore utilizando a função <code>createTaxonomyTree</code>, convertê-la para a nova estrutura com a função <code>convertToTreeNode</code>, e retornar a estrutura final da árvore com o código abaixo:</p>
+    <pre><code class="typescript" id="execute-code">
+  // Chamando a função para obter os dados
+  getTaxonomyTree();
+    </code></pre>
+  </section>
+
   <div class="container">
     <div class="editor-container">
       <textarea id="code-editor" placeholder="Escreva seu código TypeScript aqui..."></textarea>

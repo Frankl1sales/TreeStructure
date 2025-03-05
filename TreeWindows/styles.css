@@ -203,3 +203,98 @@ button:hover {
     width: 90%;
   }
 }
+
+/* Descrição da Atividade */
+.description {
+  text-align: center;
+  max-width: 800px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.description h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.description p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.description pre {
+  background-color: #f4f4f9;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  overflow: auto;
+  font-size: 1.1em;
+  color: #2c3e50;
+  text-align: left;
+}
+
+.description code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1em;
+  color: #34495e;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+h1 {
+  color: #333;
+}
+p {
+  font-size: 18px;
+  color: #666;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+li {
+  margin: 10px 0;
+}
+a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+a:hover {
+  background-color: #45a049;
+  transform: scale(1.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#activity-list {
+  display: flex;
+  flex-direction: row; /* Alinha os itens horizontalmente */
+  justify-content: center; /* Centraliza os itens no eixo horizontal */
+  gap: 20px; /* Adiciona o espaço entre os itens */
+  list-style: none;
+  padding: 0;
+}
+
+#activity-list li {
+  margin: 0;
+}
