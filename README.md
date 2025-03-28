@@ -1,6 +1,6 @@
-# Nome do Projeto
+# Códigos da Floresta
 
-Descrição do projeto.
+O Código da Floresta é um ambiente interativo projetado para auxiliar educadores no ensino de Estruturas de Dados, com foco na árvore. A plataforma proporciona uma abordagem didática e intuitiva, facilitando o aprendizado de conceitos fundamentais. Foi desenvolvido inspirado nas plataformas educativa como W3School, FreeCodeCamp e Klan Academy, 
 
 ## Índice
 
@@ -10,7 +10,7 @@ Descrição do projeto.
 
 ## Objetivo
 
-Descrição do objetivo do projeto.
+Contribuir no ensino de estrtura de dados em um ambiente interativo.
 
 ## Como Usar
 
