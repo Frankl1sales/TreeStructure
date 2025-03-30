@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Monaco em HTML</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        #editor {
+            width: 100%;
+            height: 100%;
+        }
+        h1 {
+            text-align: center;
+            background: #333;
+            color: white;
+            margin: 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Editor de Código Monaco</h1>
+        <div id="editor"></div>
+    </div>
+
+    <!-- Carrega o Monaco Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
+    <script>
+        // Configura o caminho para os arquivos do Monaco
+        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
+        
+        // Carrega o editor
+        require(['vs/editor/editor.main'], function() {
+            // Cria o editor
+            var editor = monaco.editor.create(document.getElementById('editor'), {
+                value: [
+                    '// Digite seu código aqui',
+                    'function hello() {',
+                    '\tconsole.log("Olá, mundo!");',
+                    '}',
+                    '',
+                    'hello();'
+                ].join('\n'),
+                language: 'javascript',
+                theme: 'vs-dark',
+                automaticLayout: true,
+                minimap: {
+                    enabled: true
+                }
+            });
+            
+            // Você pode adicionar eventos ao editor aqui
+            editor.onDidChangeModelContent(function(e) {
+                console.log('Conteúdo alterado:', e);
+            });
+        });
+    </script>
+</body>
+</html>

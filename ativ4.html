@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Árvores</title>
+  <link rel="stylesheet" href="styles2.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typescript@4.9.4/lib/typescript.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
+</head>
+
+<body>
+  <h1>Editor de Estruturas de Árvores</h1>
+
+  <section class="description">
+    <h2>Descrição da Atividade</h2>
+    <p>Na atividade proposta, você irá construir uma árvore que segue a classificação taxonômica de alguns animais. A árvore será do tipo:</p>
+    <pre><code class="plaintext">
+Animalia
+  └── Chordata
+        ├── Mammalia
+        │     ├── Primates
+        │     │     └── Homo sapiens
+        │     └── Carnivora
+        │           └── Canis lupus
+        └── Aves
+              └── Passeriformes
+                    └── Corvus corax
+    </code></pre>
+
+    <p>O objetivo é validar se a estrutura criada corresponde exatamente à esperada. Utilize o editor para criar sua árvore e clique em "Executar Código" para verificar sua solução.</p>
+  </section>
+
+
+
+  <div class="container">
+    <div class="editor-container">
+      <div id="code-editor"></div>
+      <button id="run-code">Executar Código</button>
+    </div>
+    
+    <div id="output-container">
+      <h2>Visualização da Árvore</h2>
+      <div id="tree-output"></div>
+      <div class="celebration" id="celebration" style="display: none;">
+        🎆 Parabéns! Você acertou! 🎆
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let editor;
+    
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+      editor = monaco.editor.create(document.getElementById('code-editor'), {
+        value: [
+          ''
+        ].join('\n'),
+        language: "typescript",
+        theme: "vs-light",
+        automaticLayout: true,
+        minimap: {
+          enabled: false
+        },
+        fontSize: 14,
+        lineNumbers: "on",
+        roundedSelection: true,
+        scrollBeyondLastLine: false,
+        wordWrap: "on",
+        renderWhitespace: "none",
+        autoClosingBrackets: "always",
+        tabSize: 2
+      });
+    });
+
+    document.getElementById("run-code").addEventListener("click", () => {
+      const userCode = editor.getValue();
+      const outputDiv = document.getElementById("tree-output");
+      const celebrationDiv = document.getElementById("celebration");
+
+      try {
+        // Código de conversão que será adicionado automaticamente
+        const conversionCode = `
+          function convertToTreeNode(binaryNode: Node | null): any {
+            if (binaryNode === null) return null;
+            return {
+              value: binaryNode.data.toString(),
+              children: [
+                convertToTreeNode(binaryNode.left),
+                convertToTreeNode(binaryNode.right)
+              ].filter(n => n !== null)
+            };
+          }
+          
+          const rootNode = convertToTreeNode(rootNodeBinary);
+          rootNode;
+        `;
+        
+        // Combina o código do usuário com o código de conversão
+        const fullCode = userCode + conversionCode;
+        
+        // Transpila TypeScript para JavaScript
+        const compiledCode = ts.transpile(fullCode);
+        
+        // Executa o código completo
+        const result = eval(compiledCode);
+        
+        outputDiv.innerHTML = "";
+        if (result) renderTreeD3(result, outputDiv);
+        
+        celebrationDiv.style.display = result ? "block" : "none";
+      } catch (error) {
+        outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
+        celebrationDiv.style.display = "none";
+      }
+    });
+
+
+    // Função para renderizar a árvore com D3.js
+    function renderTreeD3(tree, container) {
+      const width = 600;
+      const height = 300;
+      const verticalOffset = 50; // Ajuste conforme necessário
+
+      const svg = d3.select(container)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height + verticalOffset);
+
+      const root = d3.hierarchy(tree); // Usando a estrutura hierárquica do D3
+
+      const treeLayout = d3.tree().size([width, height - 100]);
+
+      treeLayout(root); // Calculando as posições dos nós
+
+      // Adiciona os links entre os nós
+      svg.selectAll(".link")
+        .data(root.links())
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y + verticalOffset)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y + verticalOffset)
+        .attr("stroke", "#ccc");
+
+      // Adiciona os nós
+      const nodes = svg.selectAll(".node")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", d => `translate(${d.x},${d.y + verticalOffset})`);
+
+      nodes.append("circle")
+        .attr("r", 10)
+        .attr("fill", "#69b3a2");
+
+      nodes.append("text")
+        .attr("dy", -15)
+        .attr("text-anchor", "middle")
+        .text(d => d.data.value || "Node");
+
+      // Interatividade: ao passar o mouse sobre um nó
+      nodes.on("mouseover", function (event, d) {
+        d3.select(this)
+          .select("circle")
+          .attr("fill", "#ff7f0e");
+      }).on("mouseout", function (event, d) {
+        d3.select(this)
+          .select("circle")
+          .attr("fill", "#69b3a2");
+      });
+    }
+  </script>
+</body>
+</html>
