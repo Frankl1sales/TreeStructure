@@ -12,6 +12,9 @@
       margin: 0;
       padding: 20px;
       line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     
     h1 {
@@ -110,107 +113,167 @@
       font-size: 0.8em;
       margin-left: 10px;
     }
+    
+    main {
+      flex: 1;
+    }
+    
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden; /* Impede scroll horizontal */
+    }
+    
+    /* ESTRUTURA PRINCIPAL */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #f0f8ff;
+    }
+    
+    main {
+      flex: 1;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    
+    /* FOOTER FIXO */
+    footer {
+      background-color: #111827;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      width: 100vw; /* 100% da viewport width */
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+      box-sizing: border-box;
+    }
+    
+    footer p {
+      margin: 0;
+      max-width: 100%;
+    }
+    
+    footer a {
+      color: #4f46e5;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    footer a:hover {
+      color: #8b85ff;
+    }
   </style>
 </head>
 <body>
-  <h1>🌳 Explorando Árvores Binárias! 🌳</h1>
-  
-  <img src="capivaras2.png" alt="Desenho de animais na floresta" style="width: 100%; height: auto;" />
+  <main>
+    <h1>🌳 Explorando Árvores Binárias! 🌳</h1>
+    
+    <img src="capivaras2.png" alt="Desenho de animais na floresta" style="width: 100%; height: auto;" />
 
-  <section class="description">
+    <section class="description">
+      <p>
+        Bem-vindos, exploradores digitais! 🎉 Nesta aventura, vamos descobrir como as árvores binárias organizam informações de um jeito super inteligente, parecido com como classificamos nossos brinquedos ou organizamos nossa coleção de figurinhas!
+      </p>
+      
+      <p>
+        Vamos aprender brincando com <strong>3 missões emocionantes</strong>:
+      </p>
+      
+      <ol>
+        <li>🧩 Teste seus conhecimentos com nossos quizzes divertidos</li>
+        <li>🌱 Plante e cultive sua própria árvore digital</li>
+        <li>💻 Transforme-se em um programador de árvores com desafios de código</li>
+      </ol>
+      
+      <p>
+        Não se preocupe se nunca ouviu falar disso antes - vamos aprender tudo juntos, passo a passo! ✨
+      </p>
+    </section>
+
+    <h2 style="text-align: center; color: #2e8b57;">Escolha sua missão:</h2>
+   
+    <ul class="activity-list">
+      <li class="activity-item">
+        <a href="ativ1.html" class="activity-link">
+          <div class="activity-icon quiz-icon"></div>
+          <span>Quiz: O que é uma Árvore Binária?</span>
+          <span class="difficulty">Fácil</span>
+        </a>
+      </li>
+      
+      <li class="activity-item">
+        <a href="ativ2.html" class="activity-link">
+          <div class="activity-icon quiz-icon"></div>
+          <span>Quiz: Como as Árvores Organizam Dados</span>
+          <span class="difficulty">Médio</span>
+        </a>
+      </li>
+      
+      <li class="activity-item">
+        <a href="ativ3.html" class="activity-link">
+          <div class="activity-icon tree-icon"></div>
+          <span>Jardim Digital: Cultive sua Árvore</span>
+          <span class="difficulty">Divertido!</span>
+        </a>
+      </li>
+      
+      <li class="activity-item">
+        <a href="ativ4.html" class="activity-link">
+          <div class="activity-icon code-icon"></div>
+          <span>Crie sua Primeira Árvore Binária</span>
+          <span class="difficulty">Desafio</span>
+        </a>
+      </li>
+      
+      <li class="activity-item">
+        <a href="ativ5.html" class="activity-link">
+          <div class="activity-icon code-icon"></div>
+          <span>Missão: Inserir Novos Itens</span>
+          <span class="difficulty">Desafio</span>
+        </a>
+      </li>
+      
+      <li class="activity-item">
+        <a href="ativ6.html" class="activity-link">
+          <div class="activity-icon code-icon"></div>
+          <span>Expedição: Busca na Floresta Digital</span>
+          <span class="difficulty">Aventura</span>
+        </a>
+      </li>
+
+      <li class="activity-item">
+        <a href="ativ7.html" class="activity-link">
+          <div class="activity-icon code-icon"></div>
+          <span>Missão Especial: Remoção de Nós</span>
+          <span class="mission-badge">Novo!</span>
+          <span class="difficulty">Super Desafio</span>
+        </a>
+      </li>
+    </ul>
+    
+    <div style="text-align: center; margin-top: 40px;">
+      <p>Pronto para começar sua aventura nas árvores binárias? 🌟</p>
+      <p>Escolha uma missão acima e divirta-se aprendendo!</p>
+    </div>
+  </main>
+
+  <footer>
     <p>
-      Bem-vindos, exploradores digitais! 🎉 Nesta aventura, vamos descobrir como as árvores binárias organizam informações de um jeito super inteligente, parecido com como classificamos nossos brinquedos ou organizamos nossa coleção de figurinhas!
+      Desenvolvido por 
+      <a href="https://www.linkedin.com/in/franklin-oliveira12/" 
+         target="_blank" 
+         rel="noopener noreferrer">
+        Franklin Sales de Oliveira
+      </a>
     </p>
-    
-    <p>
-      Vamos aprender brincando com <strong>3 missões emocionantes</strong>:
-    </p>
-    
-    <ol>
-      <li>🧩 Teste seus conhecimentos com nossos quizzes divertidos</li>
-      <li>🌱 Plante e cultive sua própria árvore digital</li>
-      <li>💻 Transforme-se em um programador de árvores com desafios de código</li>
-    </ol>
-    
-    <p>
-      Não se preocupe se nunca ouviu falar disso antes - vamos aprender tudo juntos, passo a passo! ✨
-    </p>
-  </section>
-
-  <h2 style="text-align: center; color: #2e8b57;">Escolha sua missão:</h2>
- 
-  <ul class="activity-list">
-    <li class="activity-item">
-      <a href="ativ1.html" class="activity-link">
-        <div class="activity-icon quiz-icon"></div>
-        <span>Quiz: O que é uma Árvore Binária?</span>
-        <span class="difficulty">Fácil</span>
-      </a>
-    </li>
-    
-    <li class="activity-item">
-      <a href="ativ2.html" class="activity-link">
-        <div class="activity-icon quiz-icon"></div>
-        <span>Quiz: Como as Árvores Organizam Dados</span>
-        <span class="difficulty">Médio</span>
-      </a>
-    </li>
-    
-    <li class="activity-item">
-      <a href="ativ3.html" class="activity-link">
-        <div class="activity-icon tree-icon"></div>
-        <span>Jardim Digital: Cultive sua Árvore</span>
-        <span class="difficulty">Divertido!</span>
-      </a>
-    </li>
-    
-    <li class="activity-item">
-      <a href="ativ4.html" class="activity-link">
-        <div class="activity-icon code-icon"></div>
-        <span>Crie sua Primeira Árvore Binária</span>
-        <span class="difficulty">Desafio</span>
-      </a>
-    </li>
-    
-    <li class="activity-item">
-      <a href="ativ5.html" class="activity-link">
-        <div class="activity-icon code-icon"></div>
-        <span>Missão: Inserir Novos Itens</span>
-        <span class="difficulty">Desafio</span>
-      </a>
-    </li>
-    
-    <li class="activity-item">
-      <a href="ativ6.html" class="activity-link">
-        <div class="activity-icon code-icon"></div>
-        <span>Expedição: Busca na Floresta Digital</span>
-        <span class="difficulty">Aventura</span>
-      </a>
-    </li>
-  </ul>
-
-    <li class="activity-item">
-      <a href="ativ7.html" class="activity-link">
-        <div class="activity-icon code-icon"></div>
-        <span>Expedição: Busca na Floresta Digital</span>
-        <span class="difficulty">Aventura</span>
-      </a>
-    </li>
-  </ul>
-
-    <li class="activity-item">
-      <a href="ativ7.html" class="activity-link">
-        <div class="activity-icon code-icon"></div>
-        <span>Missão Especial: Remoção de Nós</span>
-        <span class="mission-badge">Novo!</span>
-        <span class="difficulty">Super Desafio</span>
-      </a>
-    </li>
-  </ul>
-  
-  <div style="text-align: center; margin-top: 40px;">
-    <p>Pronto para começar sua aventura nas árvores binárias? 🌟</p>
-    <p>Escolha uma missão acima e divirta-se aprendendo!</p>
-  </div>
+  </footer>
 </body>
 </html>
