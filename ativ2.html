@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade 2 - Explorando Árvores Binárias</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background-color: #e6f7ff;
+      padding: 20px;
+      color: #2d3436;
+    }
+    h1 {
+      color: #2e86de;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    .subtitle {
+      font-size: 1.2em;
+      color: #0984e3;
+      margin-bottom: 30px;
+    }
+    .question-container {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .question-number {
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background-color: #74b9ff;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .question {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      color: #2e86de;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .options button {
+      padding: 12px 20px;
+      font-size: 1.1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 50px;
+      background-color: #dfe6e9;
+      color: #2d3436;
+      transition: all 0.3s;
+      text-align: left;
+      position: relative;
+      padding-left: 50px;
+    }
+    .options button:hover {
+      background-color: #b2bec3;
+      transform: scale(1.01);
+    }
+    .options button::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      border: 2px solid #636e72;
+    }
+    .celebration {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(253, 203, 110, 0.8);
+      z-index: 100;
+      text-align: center;
+    }
+    .celebration-text {
+      font-size: 2em;
+      color: #e17055;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+    .emoji {
+      font-size: 3em;
+      margin: 10px;
+      display: inline-block;
+      animation: bounce 0.5s infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+    #score {
+      font-size: 1.5em;
+      background-color: #ffeaa7;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      color: #e17055;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .correct {
+      background-color: #55efc4 !important;
+      color: #006400 !important;
+    }
+    .correct::before {
+      content: '✓';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #00b894;
+      border: none;
+    }
+    .incorrect {
+      background-color: #fab1a0 !important;
+      color: #d63031 !important;
+    }
+    .incorrect::before {
+      content: '✗';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #d63031;
+      border: none;
+    }
+    .explanation {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #dfe6e9;
+      border-radius: 10px;
+      font-size: 0.9em;
+      display: none;
+      text-align: left;
+      border-left: 4px solid #74b9ff;
+    }
+    .continue-btn {
+      background-color: #00b894 !important;
+      color: white !important;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+      padding-left: 20px !important;
+    }
+    .continue-btn::before {
+      display: none;
+    }
+    .tree-icon {
+      width: 100px;
+      margin: 10px auto;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌲 Explorando Árvores Binárias 🌲</h1>
+  <p class="subtitle">Teste seus conhecimentos sobre essas estruturas incríveis!</p>
+  
+  <div id="score">🏆 Pontos: 0</div>
+  
+  <img src="tree-icon.png" alt="Árvore binária" class="tree-icon">
+
+  <!-- Questão 1 -->
+  <div class="question-container" id="question1">
+    <div class="question-number">1</div>
+    <div class="question">Na árvore de busca binária, como os números se organizam?</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question1', 'Imagine uma escada onde números menores ficam à esquerda e maiores à direita!')">
+        Os números ficam em qualquer lugar sem ordem
+      </button>
+      <button onclick="checkAnswer(this, true, 'question1', 'Imagine uma escada onde números menores ficam à esquerda e maiores à direita!')">
+        Números menores à esquerda e maiores à direita
+      </button>
+      <button onclick="checkAnswer(this, false, 'question1', 'Imagine uma escada onde números menores ficam à esquerda e maiores à direita!')">
+        Todos os números ficam do mesmo lado
+      </button>
+      <button onclick="checkAnswer(this, false, 'question1', 'Imagine uma escada onde números menores ficam à esquerda e maiores à direita!')">
+        Os números se alternam entre esquerda e direita
+      </button>
+    </div>
+    <div class="explanation" id="explanation1"></div>
+  </div>
+
+  <!-- Questão 2 -->
+  <div class="question-container" id="question2">
+    <div class="question-number">2</div>
+    <div class="question">O que significa "pré-ordem" ao visitar uma árvore?</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, true, 'question2', 'É como visitar uma casa: você começa pela porta (raiz), depois o quarto à esquerda, depois o à direita!')">
+        Visitar a raiz, depois esquerda, depois direita
+      </button>
+      <button onclick="checkAnswer(this, false, 'question2', 'É como visitar uma casa: você começa pela porta (raiz), depois o quarto à esquerda, depois o à direita!')">
+        Visitar esquerda, depois raiz, depois direita
+      </button>
+      <button onclick="checkAnswer(this, false, 'question2', 'É como visitar uma casa: você começa pela porta (raiz), depois o quarto à esquerda, depois o à direita!')">
+        Visitar direita, depois raiz, depois esquerda
+      </button>
+      <button onclick="checkAnswer(this, false, 'question2', 'É como visitar uma casa: você começa pela porta (raiz), depois o quarto à esquerda, depois o à direita!')">
+        Visitar em qualquer ordem aleatória
+      </button>
+    </div>
+    <div class="explanation" id="explanation2"></div>
+  </div>
+
+  <!-- Questão 3 -->
+  <div class="question-container" id="question3">
+    <div class="question-number">3</div>
+    <div class="question">Por que árvores binárias são boas para buscar informações?</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question3', 'Elas dividem os dados como uma árvore genealógica, eliminando metade das opções a cada passo!')">
+        Porque os dados ficam sempre em ordem alfabética
+      </button>
+      <button onclick="checkAnswer(this, true, 'question3', 'Elas dividem os dados como uma árvore genealógica, eliminando metade das opções a cada passo!')">
+        Porque eliminam metade das opções a cada passo
+      </button>
+      <button onclick="checkAnswer(this, false, 'question3', 'Elas dividem os dados como uma árvore genealógica, eliminando metade das opções a cada passo!')">
+        Porque todos os dados estão no mesmo lugar
+      </button>
+      <button onclick="checkAnswer(this, false, 'question3', 'Elas dividem os dados como uma árvore genealógica, eliminando metade das opções a cada passo!')">
+        Porque são mais coloridas que outras estruturas
+      </button>
+    </div>
+    <div class="explanation" id="explanation3"></div>
+  </div>
+
+  <!-- Questão 4 -->
+  <div class="question-container" id="question4">
+    <div class="question-number">4</div>
+    <div class="question">O que é um nó folha na árvore?</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question4', 'Folhas são como crianças sem filhos na árvore genealógica - são o final da linha!')">
+        O primeiro nó da árvore
+      </button>
+      <button onclick="checkAnswer(this, true, 'question4', 'Folhas são como crianças sem filhos na árvore genealógica - são o final da linha!')">
+        Um nó sem filhos, como folhas de verdade
+      </button>
+      <button onclick="checkAnswer(this, false, 'question4', 'Folhas são como crianças sem filhos na árvore genealógica - são o final da linha!')">
+        Um nó no meio da árvore
+      </button>
+      <button onclick="checkAnswer(this, false, 'question4', 'Folhas são como crianças sem filhos na árvore genealógica - são o final da linha!')">
+        Um nó com apenas um filho
+      </button>
+    </div>
+    <div class="explanation" id="explanation4"></div>
+  </div>
+
+  <!-- Questão 5 -->
+  <div class="question-container" id="question5">
+    <div class="question-number">5</div>
+    <div class="question">A altura da árvore é medida por:</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question5', 'Altura é como contar os degraus da escada mais longa da raiz até a folha mais distante!')">
+        Contando todos os nós da árvore
+      </button>
+      <button onclick="checkAnswer(this, true, 'question5', 'Altura é como contar os degraus da escada mais longa da raiz até a folha mais distante!')">
+        O caminho mais longo da raiz até uma folha
+      </button>
+      <button onclick="checkAnswer(this, false, 'question5', 'Altura é como contar os degraus da escada mais longa da raiz até a folha mais distante!')">
+        O número de folhas que a árvore tem
+      </button>
+      <button onclick="checkAnswer(this, false, 'question5', 'Altura é como contar os degraus da escada mais longa da raiz até a folha mais distante!')">
+        A profundidade do nó mais à esquerda
+      </button>
+    </div>
+    <div class="explanation" id="explanation5"></div>
+  </div>
+
+  <!-- Celebração -->
+  <div class="celebration" id="celebration">
+    <div class="celebration-text">✨ Você é Incrível! ✨</div>
+    <div class="emoji">🌳</div>
+    <div class="emoji">🧠</div>
+    <div class="emoji">🌟</div>
+    <p>Seu conhecimento sobre árvores está crescendo!</p>
+    <button class="options continue-btn" onclick="hideCelebration()">Continuar Explorando</button>
+  </div>
+
+  <script>
+    let score = 0;
+    updateScore();
+
+    function checkAnswer(button, isCorrect, questionId, explanation) {
+      // Desativa todos os botões da questão
+      const buttons = document.querySelectorAll(`#${questionId} .options button`);
+      buttons.forEach(btn => {
+        btn.onclick = null;
+        btn.style.cursor = 'default';
+      });
+
+      // Mostra explicação
+      const explanationDiv = document.getElementById(`explanation${questionId.slice(-1)}`);
+      explanationDiv.innerHTML = `<strong>🧐 Entenda melhor:</strong> ${explanation}`;
+      explanationDiv.style.display = 'block';
+
+      if (isCorrect) {
+        button.classList.add('correct');
+        score++;
+        updateScore();
+        showCelebration();
+      } else {
+        button.classList.add('incorrect');
+        // Mostra a resposta correta
+        buttons.forEach(btn => {
+          if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('true')) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = `🏆 Pontos: ${score}`;
+      localStorage.setItem('treeQuizScore2', score);
+    }
+
+    function showCelebration() {
+      document.getElementById('celebration').style.display = 'block';
+      // Animação aleatória dos emojis
+      const emojis = document.querySelectorAll('.emoji');
+      emojis.forEach(emoji => {
+        emoji.style.animationDuration = `${Math.random() * 0.5 + 0.3}s`;
+      });
+    }
+
+    function hideCelebration() {
+      document.getElementById('celebration').style.display = 'none';
+    }
+
+    // Carrega pontuação salva
+    window.onload = function() {
+      const savedScore = localStorage.getItem('treeQuizScore2');
+      if (savedScore) {
+        score = parseInt(savedScore);
+        updateScore();
+      }
+    };
+  </script>
+</body>
+</html>

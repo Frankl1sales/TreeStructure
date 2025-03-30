@@ -3,352 +3,456 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editor de Árvores Binárias</title>
-  <link rel="stylesheet" href="styles2.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/typescript@4.9.4/lib/typescript.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
-  
+  <title>Árvore Binária Interativa</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #e6f7ff;
+      color: #2d3436;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      color: #2e86de;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    .subtitle {
+      color: #0984e3;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .panel {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      flex: 1;
+      min-width: 300px;
+    }
+    .controls {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input {
+      padding: 12px;
+      border: 2px solid #74b9ff;
+      border-radius: 8px;
+      font-size: 1em;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 12px;
+      background-color: #74b9ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0984e3;
+      transform: scale(1.02);
+    }
+    #tree-display {
+      min-height: 500px;
+      width: 100%;
+      overflow: auto;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      margin-top: 15px;
+      position: relative;
+      border: 2px dashed #74b9ff;
+    }
+    #tree-svg {
+      width: 100%;
+      height: 100%;
+      min-height: 500px;
+    }
+    .node circle {
+      fill: #74b9ff;
+      stroke: #0984e3;
+      stroke-width: 2;
+    }
+    .node text {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 14px;
+      fill: white;
+      font-weight: bold;
+    }
+    .link {
+      stroke: #636e72;
+      stroke-width: 2;
+      fill: none;
+    }
+    .instructions {
+      background-color: #dfe6e9;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      text-align: left;
+    }
+    .celebration {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(253, 203, 110, 0.8);
+      z-index: 100;
+      text-align: center;
+      max-width: 80%;
+    }
+    .emoji {
+      font-size: 3em;
+      margin: 10px;
+      display: inline-block;
+      animation: bounce 0.5s infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+    #tree-stats {
+      margin-top: 15px;
+      background-color: #dfe6e9;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: left;
+    }
+    .zoom-controls {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+    }
+    .zoom-btn {
+      background-color: #74b9ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      font-size: 16px;
+      margin: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .zoom-btn:hover {
+      background-color: #0984e3;
+    }
+    .reset-btn {
+      background-color: #e17055;
+    }
+    .reset-btn:hover {
+      background-color: #d63031;
+    }
+  </style>
 </head>
 <body>
-  <h1>Explorando Árvores Binárias 🌳🐒</h1>
-  <img src="capivaras2.png" alt="Desenho de animais na floresta" style="width: 100%; height: auto;" />
-
-  <section class="description">
-    <h2>🧩 Vamos Construir Uma Árvore de Números!</h2>
-    
-    <p>Imagine que os números são como animais numa floresta, cada um com seu lugar especial. Vamos criar uma árvore onde cada número pode ter até dois "filhotes" (números menores ligados a ele).</p>
-    <p>🔍 Siga os passos abaixo para criar sua árvore digital. Quando terminar, clique em <strong>"Executar"</strong> para ver sua árvore ganhar vida!</p>
-
-    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
-      <h3>📚 Como Funciona?</h3>
-      <p>Toda árvore começa por uma <strong>raiz</strong> (o número principal). Cada número pode ter:</p>
-      <ul>
-        <li>👉 Um galho à <strong>esquerda</strong> (para números menores)</li>
-        <li>👉 Um galho à <strong>direita</strong> (para números maiores)</li>
-      </ul>
-      <p>É como uma família onde cada pessoa pode ter até dois filhos!</p>
-    </div>
-
-    <h3>1️⃣ Primeiro Passo: Criando um Nó (o "animal" da nossa floresta)</h3>
-    <p>Cada "animal" (nó) da nossa árvore tem:</p>
-    <ul>
-      <li>📝 Um <strong>valor numérico</strong> (data)</li>
-      <li>🖇️ Um <strong>galho esquerdo</strong> (left)</li>
-      <li>🖇️ Um <strong>galho direito</strong> (right)</li>
-    </ul>
-    <pre><code class="typescript" id="example-code">
-class Node {
-  data: number;       // O valor do nosso "animal"
-  left: Node | null;  // Galho esquerdo (pode ser vazio)
-  right: Node | null; // Galho direito (pode ser vazio)
-
-  constructor(data: number) {
-    this.data = data;
-    this.left = null;   // Começa sem galho esquerdo
-    this.right = null;  // Começa sem galho direito
-  }
-}
-    </code></pre>
-
-    <h3>2️⃣ Segundo Passo: Plantando Nossa Árvore</h3>
-    <p>Vamos criar uma árvore especial com estes números:</p>
-    <div style="display: flex; justify-content: center; margin: 20px 0;">
-      <div style="text-align: center;">
-        <div style="font-size: 24px;">1</div>
-        <div style="display: flex; justify-content: center; gap: 40px;">
-          <div>
-            <div style="font-size: 20px;">2</div>
-            <div style="display: flex; justify-content: center; gap: 20px;">
-              <div style="font-size: 16px;">4</div>
-              <div style="font-size: 16px;">5</div>
-            </div>
-          </div>
-          <div style="font-size: 20px;">3</div>
-        </div>
+  <h1>🌱 Árvore Binária Interativa 🌱</h1>
+  <p class="subtitle">Insira números e veja sua árvore crescer!</p>
+  
+  <div class="container">
+    <div class="panel controls">
+      <h2>🍃 Controles</h2>
+      <input type="number" id="number-input" placeholder="Digite um número (1-99)" min="1" max="99">
+      <button onclick="insertNumber()">Inserir Número</button>
+      <button onclick="resetTree()" style="background-color: #e17055;">Reiniciar Árvore</button>
+      
+      <div class="instructions">
+        <h3>📝 Como jogar:</h3>
+        <ol>
+          <li>Digite um número entre 1 e 99</li>
+          <li>Clique em "Inserir Número"</li>
+          <li>Números menores vão para a esquerda</li>
+          <li>Números maiores vão para a direita</li>
+          <li>Use os botões de zoom para explorar</li>
+        </ol>
       </div>
     </div>
-    <pre><code class="typescript" id="create-tree-code">
-function createBinaryTree(): Node {
-  // 🌱 Plantamos a raiz (o número 1)
-  const root = new Node(1);
-  
-  // 🌿 Adicionamos o galho esquerdo (número 2)
-  root.left = new Node(2);
-  
-  // 🌿 Adicionamos o galho direito (número 3)
-  root.right = new Node(3);
-  
-  // 🍃 O número 2 tem dois galhos menores:
-  root.left.left = new Node(4);   // Galho esquerdo do 2
-  root.left.right = new Node(5);  // Galho direito do 2
-
-  return root; // 🌳 Retorna nossa árvore completa!
-}
-    </code></pre>
-
-    <h3>3️⃣ Hora de Ver a Mágica Acontecer!</h3>
-    <p>Agora vamos juntar tudo e ver nossa árvore:</p>
-    <ol>
-      <li>1️⃣ Criamos a estrutura do nó</li>
-      <li>2️⃣ Construímos a árvore</li>
-      <li>3️⃣ Vamos mostrar o resultado!</li>
-    </ol>
-    <pre><code class="typescript" id="execute-code">
-// 🌱 Criamos a árvore binária
-const rootNode = createBinaryTree();
-
-// 🎉 Mostramos o ponto de partida (a raiz)
-rootNode;
-    </code></pre>
     
-    <div style="background-color: #fffacd; padding: 15px; border-radius: 10px; margin-top: 20px;">
-      <h3>💡 Dica Importante</h3>
-      <p>Quando você clicar em <strong>"Executar"</strong>, nosso sistema vai transformar sua árvore num desenho colorido! Não precisa se preocupar com essa parte - nós cuidamos de tudo nos bastidores.</p>
-      <p>Observe como cada número está conectado aos outros, como numa grande família!</p>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="editor-container">
-      <div id="code-editor"></div>
-      <button id="run-code">Executar Código</button>
-    </div>
-    
-    <div id="output-container">
-      <h2>Visualização da Árvore</h2>
-      <div id="tree-output"></div>
-      <div class="celebration" id="celebration" style="display: none;"></div>
+    <div class="panel">
+      <h2>🌳 Sua Árvore</h2>
+      <div id="tree-display">
+        <div class="zoom-controls">
+          <button class="zoom-btn" onclick="zoomIn()" title="Aproximar">+</button>
+          <button class="zoom-btn" onclick="zoomOut()" title="Afastar">-</button>
+          <button class="zoom-btn reset-btn" onclick="resetZoom()" title="Redefinir zoom">↻</button>
+        </div>
+        <svg id="tree-svg"></svg>
+      </div>
+      <div id="tree-stats"></div>
     </div>
   </div>
 
+  <div class="celebration" id="celebration">
+    <div class="emoji">🎉</div>
+    <h2>Você é um/a Mestre/a das Árvores Binárias!</h2>
+    <p>Sua árvore está incrível! Continue explorando!</p>
+    <button onclick="hideCelebration()" style="background-color: #00b894; margin-top: 15px;">Continuar Explorando</button>
+  </div>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script>
-    // Adicionar botões de cópia
-    document.querySelectorAll('pre code').forEach((codeBlock, index) => {
-      const copyButton = document.createElement('button');
-      copyButton.innerText = '📋';
-      copyButton.classList.add('copy-btn');
-      copyButton.onclick = () => {
-        navigator.clipboard.writeText(codeBlock.textContent)
-          .then(() => {
-            copyButton.innerText = '✓';
-            setTimeout(() => copyButton.innerText = '📋', 2000);
-          })
-          .catch(err => console.error('Falha ao copiar:', err));
-      };
-      codeBlock.parentElement.appendChild(copyButton);
-    });
+    // Classe para representar os nós da árvore
+    class TreeNode {
+      constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+      }
+    }
 
-    let editor;
+    let root = null;
+    const svg = d3.select("#tree-svg");
+    let transform = d3.zoomIdentity;
     
-    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
-    require(['vs/editor/editor.main'], function() {
-      editor = monaco.editor.create(document.getElementById('code-editor'), {
-        value: [
-          
-        ].join('\n'),
-        language: "typescript",
-        theme: "vs-light",
-        automaticLayout: true,
-        minimap: { enabled: false },
-        fontSize: 14,
-        lineNumbers: "on",
-        roundedSelection: true,
-        scrollBeyondLastLine: false,
-        wordWrap: "on",
-        renderWhitespace: "none",
-        autoClosingBrackets: "always",
-        tabSize: 2
-      });
-    });
-
-    // Função para converter a árvore binária (oculta do usuário)
-    function convertToTreeNode(binaryNode) {
-      if (binaryNode === null) return null;
+    // Função para converter nossa árvore para o formato que o D3 entende
+    function convertToD3Node(node) {
+      if (!node) return null;
+      
       return {
-        value: binaryNode.data.toString(),
+        name: node.value.toString(),
         children: [
-          convertToTreeNode(binaryNode.left),
-          convertToTreeNode(binaryNode.right),
-        ].filter(child => child !== null),
+          node.left ? convertToD3Node(node.left) : null,
+          node.right ? convertToD3Node(node.right) : null
+        ].filter(child => child !== null)
       };
     }
 
-    document.getElementById("run-code").addEventListener("click", () => {
-      const userCode = editor.getValue();
-      const outputDiv = document.getElementById("tree-output");
-      const celebrationDiv = document.getElementById("celebration");
-
-      try {
-        // Transpila TypeScript para JavaScript
-        const compiledCode = ts.transpile(userCode);
-        
-        // Executa o código do usuário para obter a árvore binária
-        const rootNodeBinary = eval(compiledCode);
-        
-        // Converte automaticamente para o formato de visualização
-        const result = convertToTreeNode(rootNodeBinary);
-        
-        outputDiv.innerHTML = "";
-        if (result) renderTreeD3(result, outputDiv);
-        
-        // Árvore esperada em formato de objeto
-        const expectedTree = {
-          value: "1",
-          children: [
-            {
-              value: "2",
-              children: [
-                { value: "4", children: [] },
-                { value: "5", children: [] }
-              ]
-            },
-            {
-              value: "3",
-              children: []
-            }
-          ]
-        };
-
-        // Função para comparar duas árvores
-        function compareTrees(tree1, tree2) {
-          if (!tree1 || !tree2) return false;
-          if (tree1.value !== tree2.value) return false;
-          if (tree1.children.length !== tree2.children.length) return false;
-          
-          for (let i = 0; i < tree1.children.length; i++) {
-            if (!compareTrees(tree1.children[i], tree2.children[i])) {
-              return false;
-            }
-          }
-          
-          return true;
-        }
-
-        // Verifica se a árvore criada corresponde à esperada
-        const isCorrect = compareTrees(result, expectedTree);
-        
-        if (isCorrect) {
-          celebrationDiv.style.display = "flex";
-          celebrationDiv.innerHTML = `
-            <div style="font-size: 4rem; margin-bottom: 1rem;">🌳 PARABÉNS! 🌳</div>
-            <div style="font-size: 2rem; margin-bottom: 2rem;">Você construiu a árvore corretamente!</div>
-            <div style="font-size: 3rem; margin: 1rem 0;">🎉 🌟 🎊</div>
-            <button class="continue-btn" onclick="this.parentElement.style.display='none'">
-              Continuar
-            </button>
-          `;
-          
-          // Adiciona confetes
-          createConfetti();
-        } else {
-          celebrationDiv.style.display = "flex";
-          celebrationDiv.innerHTML = `
-            <div style="margin-bottom: 10px;">
-              ❌ A árvore não corresponde à estrutura esperada. ❌
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-              <h3>Árvore Esperada:</h3>
-              <div id="expected-tree"></div>
-            </div>
-            <div style="margin-top: 30px; display: flex; gap: 20px;">
-              <button class="try-again-btn" onclick="location.reload()">
-                ↻ Tente Novamente
-              </button>
-            </div>
-          `;
-          celebrationDiv.style.color = "red";
-          
-          // Mostra a árvore esperada
-          renderTreeD3(expectedTree, document.getElementById("expected-tree"));
-        }
-      } catch (error) {
-        outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
-        celebrationDiv.style.display = "none";
-      }
-    });
-
-    // Função para criar confetes
-    function createConfetti() {
-      const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
+    // Função para inserir um número na árvore
+    function insertNumber() {
+      const input = document.getElementById("number-input");
+      const num = parseInt(input.value);
       
-      for (let i = 0; i < 150; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-        confetti.style.width = (Math.random() * 10 + 5) + 'px';
-        confetti.style.height = confetti.style.width;
-        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-        
-        document.body.appendChild(confetti);
-        
-        // Remove os confetes após a animação
-        setTimeout(() => {
-          confetti.remove();
-        }, 5000);
+      if (isNaN(num)) {
+        alert("Por favor, digite um número válido!");
+        return;
+      }
+      
+      if (num < 1 || num > 99) {
+        alert("Digite um número entre 1 e 99");
+        return;
+      }
+      
+      root = insertNode(root, num);
+      input.value = "";
+      updateTreeDisplay();
+      
+      if (countNodes(root) >= 7) {
+        showCelebration();
       }
     }
-
-    // Função para renderizar a árvore com D3.js
-    function renderTreeD3(tree, container) {
-      container.innerHTML = '';
-      const width = 600;
-      const height = 300;
-      const verticalOffset = 50;
-
-      const svg = d3.select(container)
-        .append("svg")
-        .attr("width", width)
-        .attr("height", height + verticalOffset);
-
-      const root = d3.hierarchy(tree);
-
-      const treeLayout = d3.tree().size([width, height - 100]);
-
-      treeLayout(root);
-
-      // Adiciona os links entre os nós
-      svg.selectAll(".link")
-        .data(root.links())
+    
+    // Função auxiliar para inserir nós
+    function insertNode(node, num) {
+      if (node === null) {
+        return new TreeNode(num);
+      }
+      
+      if (num < node.value) {
+        node.left = insertNode(node.left, num);
+      } else if (num > node.value) {
+        node.right = insertNode(node.right, num);
+      }
+      
+      return node;
+    }
+    
+    // Atualiza a visualização da árvore
+    function updateTreeDisplay() {
+      const container = document.getElementById("tree-display");
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      
+      svg.attr("width", width)
+         .attr("height", height)
+         .selectAll("*").remove();
+      
+      if (root === null) {
+        svg.append("text")
+          .attr("x", width/2)
+          .attr("y", height/2)
+          .attr("text-anchor", "middle")
+          .text("Árvore vazia - Insira números!")
+          .style("font-size", "16px")
+          .style("fill", "#636e72");
+        document.getElementById("tree-stats").innerHTML = "";
+        return;
+      }
+      
+      // Converte para o formato do D3
+      const d3Root = d3.hierarchy(convertToD3Node(root));
+      const treeLayout = d3.tree().size([width - 100, height - 100]);
+      treeLayout(d3Root);
+      
+      // Centraliza a árvore
+      const nodes = d3Root.descendants();
+      const minX = d3.min(nodes, d => d.x);
+      const maxX = d3.max(nodes, d => d.x);
+      const offsetX = (width - (maxX - minX)) / 2 - minX;
+      
+      // Desenha as ligações
+      svg.append("g")
+        .selectAll(".link")
+        .data(d3Root.links())
         .enter()
-        .append("line")
+        .append("path")
         .attr("class", "link")
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y + verticalOffset)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y + verticalOffset)
-        .attr("stroke", "#ccc");
-
-      // Adiciona os nós
-      const nodes = svg.selectAll(".node")
-        .data(root.descendants())
+        .attr("d", d3.linkVertical()
+          .x(d => d.x + offsetX)
+          .y(d => d.y + 50));
+      
+      // Desenha os nós
+      const nodeGroups = svg.append("g")
+        .selectAll(".node")
+        .data(nodes)
         .enter()
         .append("g")
         .attr("class", "node")
-        .attr("transform", d => `translate(${d.x},${d.y + verticalOffset})`);
-
-      nodes.append("circle")
-        .attr("r", 10)
-        .attr("fill", "#69b3a2");
-
-      nodes.append("text")
-        .attr("dy", -15)
+        .attr("transform", d => `translate(${d.x + offsetX},${d.y + 50})`);
+      
+      nodeGroups.append("circle")
+        .attr("r", 15)
+        .attr("class", "node");
+      
+      nodeGroups.append("text")
+        .attr("dy", 5)
         .attr("text-anchor", "middle")
-        .text(d => d.data.value || "Node");
-
-      // Interatividade
-      nodes.on("mouseover", function () {
-        d3.select(this)
-          .select("circle")
-          .attr("fill", "#ff7f0e");
-      }).on("mouseout", function () {
-        d3.select(this)
-          .select("circle")
-          .attr("fill", "#69b3a2");
-      });
+        .attr("class", "node-text")
+        .text(d => d.data.name);
+      
+      // Configura o zoom
+      svg.call(d3.zoom()
+        .scaleExtent([0.5, 3])
+        .on("zoom", (event) => {
+          transform = event.transform;
+          svg.selectAll("g.node").attr("transform", d => 
+            `translate(${transform.applyX(d.x + offsetX)},${transform.applyY(d.y + 50)})`);
+        }));
+      
+      updateTreeStats();
     }
+    
+    // Funções de zoom
+    function zoomIn() {
+      transform = transform.scale(1.2);
+      applyZoom();
+    }
+    
+    function zoomOut() {
+      transform = transform.scale(1/1.2);
+      applyZoom();
+    }
+    
+    function resetZoom() {
+      transform = d3.zoomIdentity;
+      applyZoom();
+    }
+    
+    function applyZoom() {
+      const container = document.getElementById("tree-display");
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      
+      if (root === null) return;
+      
+      const d3Root = d3.hierarchy(convertToD3Node(root));
+      const treeLayout = d3.tree().size([width - 100, height - 100]);
+      treeLayout(d3Root);
+      
+      const nodes = d3Root.descendants();
+      const minX = d3.min(nodes, d => d.x);
+      const maxX = d3.max(nodes, d => d.x);
+      const offsetX = (width - (maxX - minX)) / 2 - minX;
+      
+      svg.selectAll("g.node")
+        .attr("transform", d => 
+          `translate(${transform.applyX(d.x + offsetX)},${transform.applyY(d.y + 50)})`);
+    }
+    
+    // Atualiza as estatísticas da árvore
+    function updateTreeStats() {
+      const stats = `
+        <p><strong>📊 Estatísticas da Árvore:</strong></p>
+        <p>🍃 <strong>Nós:</strong> ${countNodes(root)}</p>
+        <p>📏 <strong>Altura:</strong> ${calculateHeight(root)}</p>
+        <p>🍂 <strong>Folhas:</strong> ${countLeaves(root)}</p>
+        <p>🔄 <strong>Balanceada:</strong> ${isBalanced(root) ? "Sim" : "Não"}</p>
+      `;
+      document.getElementById("tree-stats").innerHTML = stats;
+    }
+    
+    // Funções auxiliares
+    function countNodes(node) {
+      if (node === null) return 0;
+      return 1 + countNodes(node.left) + countNodes(node.right);
+    }
+    
+    function calculateHeight(node) {
+      if (node === null) return 0;
+      return 1 + Math.max(calculateHeight(node.left), calculateHeight(node.right));
+    }
+    
+    function countLeaves(node) {
+      if (node === null) return 0;
+      if (node.left === null && node.right === null) return 1;
+      return countLeaves(node.left) + countLeaves(node.right);
+    }
+    
+    function isBalanced(node) {
+      if (node === null) return true;
+      const leftHeight = calculateHeight(node.left);
+      const rightHeight = calculateHeight(node.right);
+      return Math.abs(leftHeight - rightHeight) <= 1 && 
+             isBalanced(node.left) && 
+             isBalanced(node.right);
+    }
+    
+    function showCelebration() {
+      document.getElementById("celebration").style.display = "block";
+    }
+    
+    function hideCelebration() {
+      document.getElementById("celebration").style.display = "none";
+    }
+    
+    function resetTree() {
+      root = null;
+      resetZoom();
+      updateTreeDisplay();
+    }
+    
+    // Redimensiona a árvore quando a janela muda de tamanho
+    window.addEventListener("resize", updateTreeDisplay);
+    
+    // Inicializa a aplicação
+    window.onload = updateTreeDisplay;
   </script>
 </body>
 </html>

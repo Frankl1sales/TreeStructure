@@ -1,52 +1,189 @@
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atividades sobre Árvores</title>
-
-  <link rel="stylesheet" href="styles.css">
-  
+  <title>Código das Árvores</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #f0f8ff;
+      color: #2d3436;
+      margin: 0;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    
+    h1 {
+      color: #2e8b57;
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .description {
+      background-color: #e6f7ff;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 800px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .description p {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+    }
+    
+    .activity-list {
+      list-style-type: none;
+      padding: 0;
+      max-width: 800px;
+      margin: 30px auto;
+    }
+    
+    .activity-item {
+      background-color: #fff;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    
+    .activity-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .activity-link {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      text-decoration: none;
+      color: #2d3436;
+      font-size: 1.2em;
+    }
+    
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 15px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    
+    .quiz-icon {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232e8b57"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/></svg>');
+    }
+    
+    .code-icon {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232e8b57"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>');
+    }
+    
+    .tree-icon {
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232e8b57"><path d="M22 11v2H9V7h9c2.21 0 4 1.79 4 4zM2 14v2h6v2h3v-2h6v-2H2zm5.14-1.9c-1.16-.27-2.23-.72-3.14-1.4v2.5c.75.38 1.6.6 2.5.6.9 0 1.73-.22 2.5-.6v-2.5c-.92.68-1.98 1.13-3.14 1.4zm-3.14-4.3v2.5c1.16-.27 2.23-.72 3.14-1.4.77.38 1.6.6 2.5.6.9 0 1.73-.22 2.5-.6.92.68 1.98 1.13 3.14 1.4v-2.5c-.75-.38-1.6-.6-2.5-.6-.9 0-1.73.22-2.5.6-.92-.68-1.98-1.13-3.14-1.4z"/></svg>');
+    }
+    
+    .intro-image {
+      display: block;
+      max-width: 300px;
+      margin: 20px auto;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    
+    .difficulty {
+      margin-left: auto;
+      background-color: #e6f7ff;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8em;
+      color: #2e8b57;
+    }
+  </style>
 </head>
 <body>
-  <h1>Bem-vindo ao Código das Árvores</h1>
- 
-  <!-- Seção com a descrição da atividade -->
+  <h1>🌳 Explorando Árvores Binárias! 🌳</h1>
+  
+  <img src="capivaras2.png" alt="Desenho de animais na floresta" style="width: 100%; height: auto;" />
+
   <section class="description">
     <p>
-      Este importante site tem como objetivo proporcionar a prática de programação e aprofundar a compreensão sobre estruturas de dados em árvores. Durante a atividade, os alunos irão implementar operações algorítmicas fundamentais, como inserção, remoção e busca de nós em árvores. A abordagem prática visa reforçar o entendimento teórico dos alunos, ao mesmo tempo em que desenvolve habilidades essenciais em algoritmos e estruturas de dados.
+      Bem-vindos, exploradores digitais! 🎉 Nesta aventura, vamos descobrir como as árvores binárias organizam informações de um jeito super inteligente, parecido com como classificamos nossos brinquedos ou organizamos nossa coleção de figurinhas!
     </p>
+    
     <p>
-      A atividade será dividida em três aulas, e assume-se que os alunos já possuem familiaridade com a linguagem TypeScript e com conceitos básicos de estruturas de dados, incluindo árvores.
+      Vamos aprender brincando com <strong>3 missões emocionantes</strong>:
+    </p>
+    
+    <ol>
+      <li>🧩 Teste seus conhecimentos com nossos quizzes divertidos</li>
+      <li>🌱 Plante e cultive sua própria árvore digital</li>
+      <li>💻 Transforme-se em um programador de árvores com desafios de código</li>
+    </ol>
+    
+    <p>
+      Não se preocupe se nunca ouviu falar disso antes - vamos aprender tudo juntos, passo a passo! ✨
     </p>
   </section>
 
-  <p>Escolha uma atividade para começar:</p>
+  <h2 style="text-align: center; color: #2e8b57;">Escolha sua missão:</h2>
  
-  <ul id="activity-list"></ul>
+  <ul class="activity-list">
+    <li class="activity-item">
+      <a href="ativ1.html" class="activity-link">
+        <div class="activity-icon quiz-icon"></div>
+        <span>Quiz: O que é uma Árvore Binária?</span>
+        <span class="difficulty">Fácil</span>
+      </a>
+    </li>
     
-  <script>
-    const activities = [
-      { id: 1, name: "O que é uma Árvore?", type: "quiz" },
-      { id: 2, name: "Propriedades das Árvores", type: "quiz" },
-      { id: 3, name: "Criando uma Árvore Binária", type: "code" },
-      { id: 4, name: "Inserção de Nós", type: "code" },
-      { id: 5, name: "Busca por Nó", type: "code" },
-      { id: 6, name: "Remoção de Nós", type: "code" }
-  ];
-
-  const activityList = document.getElementById("activity-list");
-
-  activities.forEach(activity => {
-      const li = document.createElement("li");
-      const link = document.createElement("a");
-      link.href = `atividade${activity.id}.html`;
-      link.textContent = activity.name;
-      li.appendChild(link);
-      activityList.appendChild(li);
-  });
-
-  </script>
+    <li class="activity-item">
+      <a href="ativ2.html" class="activity-link">
+        <div class="activity-icon quiz-icon"></div>
+        <span>Quiz: Como as Árvores Organizam Dados</span>
+        <span class="difficulty">Médio</span>
+      </a>
+    </li>
+    
+    <li class="activity-item">
+      <a href="ativ3.html" class="activity-link">
+        <div class="activity-icon tree-icon"></div>
+        <span>Jardim Digital: Cultive sua Árvore</span>
+        <span class="difficulty">Divertido!</span>
+      </a>
+    </li>
+    
+    <li class="activity-item">
+      <a href="ativ4.html" class="activity-link">
+        <div class="activity-icon code-icon"></div>
+        <span>Crie sua Primeira Árvore Binária</span>
+        <span class="difficulty">Desafio</span>
+      </a>
+    </li>
+    
+    <li class="activity-item">
+      <a href="ativ5.html" class="activity-link">
+        <div class="activity-icon code-icon"></div>
+        <span>Missão: Inserir Novos Itens</span>
+        <span class="difficulty">Desafio</span>
+      </a>
+    </li>
+    
+    <li class="activity-item">
+      <a href="ativ6.html" class="activity-link">
+        <div class="activity-icon code-icon"></div>
+        <span>Expedição: Busca na Floresta Digital</span>
+        <span class="difficulty">Aventura</span>
+      </a>
+    </li>
+  </ul>
+  
+  <div style="text-align: center; margin-top: 40px;">
+    <p>Pronto para começar sua aventura nas árvores binárias? 🌟</p>
+    <p>Escolha uma missão acima e divirta-se aprendendo!</p>
+  </div>
 </body>
 </html>

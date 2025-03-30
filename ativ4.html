@@ -1,115 +1,113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editor de Árvores</title>
+  <title>Editor de Árvores Binárias</title>
   <link rel="stylesheet" href="styles2.css">
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/typescript@4.9.4/lib/typescript.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
-</head>
-
-<h1>Código da Floresta 🌳🐾</h1>
-<img src="capivaras2.png" alt="Capivara imagem" style="width: 100%; height: auto;" />
-
-<section class="description">
-  <h2>Como Funciona a Atividade 🧩</h2>
-  <p>Nesta atividade, você vai construir uma árvore 🌲 que organiza alguns animais de acordo com a classificação científica 🦁🐦. A árvore vai ficar assim:</p>
-  <pre><code class="plaintext">
-Animalia
-└── Chordata
-      ├── Mammalia
-      │     ├── Primates
-      │     │     └── Homo sapiens
-      │     └── Carnivora
-      │           └── Canis lupus
-      └── Aves
-            └── Passeriformes
-                  └── Corvus corax
-  </code></pre>
-
-  <p>O objetivo é verificar se a árvore que você criar está certinha, igual à estrutura que mostramos 🌱. Use o editor para construir a árvore e depois clique em "Executar Código" para ver se ficou certo 💻✅.</p>
   
-  <h3>Como Deve Ficar 🔍:</h3>
-  <img src="imageAtiv4.png" alt="Árvore de Animais" width="500" />
-  <p>Siga as instruções abaixo para preencher o código e depois clique em "Executar" para ver a árvore prontinha! 🌳✨</p>
+</head>
+<body>
+  <h1>Explorando Árvores Binárias 🌳🐒</h1>
+  <img src="capivaras2.png" alt="Desenho de animais na floresta" style="width: 100%; height: auto;" />
 
-  <h3>1. O Que é um Nó? 🔑</h3>
-  <p>Primeiro, vamos entender o que é um nó 🪴. Um nó é como um "bloco" da nossa árvore 🌲, e dentro dele temos um nome. Esse nome vai ser a classificação de cada grupo de animais 🦁🐦. Cada nó também tem dois "braços" (que chamamos de ponteiros 🤖): um para o lado esquerdo (filho à esquerda) e um para o lado direito (filho à direita).</p>
-  <pre><code class="typescript" id="example-code">
+  <section class="description">
+    <h2>🧩 Vamos Construir Uma Árvore de Números!</h2>
+    
+    <p>Imagine que os números são como animais numa floresta, cada um com seu lugar especial. Vamos criar uma árvore onde cada número pode ter até dois "filhotes" (números menores ligados a ele).</p>
+    <p>🔍 Siga os passos abaixo para criar sua árvore digital. Quando terminar, clique em <strong>"Executar"</strong> para ver sua árvore ganhar vida!</p>
+
+    <div style="background-color: #f0f8ff; padding: 15px; border-radius: 10px; margin: 15px 0;">
+      <h3>📚 Como Funciona?</h3>
+      <p>Toda árvore começa por uma <strong>raiz</strong> (o número principal). Cada número pode ter:</p>
+      <ul>
+        <li>👉 Um galho à <strong>esquerda</strong> (para números menores)</li>
+        <li>👉 Um galho à <strong>direita</strong> (para números maiores)</li>
+      </ul>
+      <p>É como uma família onde cada pessoa pode ter até dois filhos!</p>
+    </div>
+
+    <h3>1️⃣ Primeiro Passo: Criando um Nó (o "animal" da nossa floresta)</h3>
+    <p>Cada "animal" (nó) da nossa árvore tem:</p>
+    <ul>
+      <li>📝 Um <strong>valor numérico</strong> (data)</li>
+      <li>🖇️ Um <strong>galho esquerdo</strong> (left)</li>
+      <li>🖇️ Um <strong>galho direito</strong> (right)</li>
+    </ul>
+    <pre><code class="typescript" id="example-code">
 class Node {
-  data: string;  // Aqui vai o nome do animal ou grupo de animais
-  left: Node | null;
-  right: Node | null;
+  data: number;       // O valor do nosso "animal"
+  left: Node | null;  // Galho esquerdo (pode ser vazio)
+  right: Node | null; // Galho direito (pode ser vazio)
 
-  constructor(data: string) {
-      this.data = data;
-      this.left = null;
-      this.right = null;
+  constructor(data: number) {
+    this.data = data;
+    this.left = null;   // Começa sem galho esquerdo
+    this.right = null;  // Começa sem galho direito
   }
 }
-  </code></pre>
+    </code></pre>
 
-  <h3>2. Criando a Árvore 🌳💡</h3>
-  <p>Agora, vamos criar a árvore de animais! 🐯🦜 Vamos usar uma função chamada <code>createTree</code> para criar os nós e montá-la 🌟:</p>
-  <p>O número 1 vai ser o começo da árvore (a raiz 🌱), o número 2 e o número 3 vão ser filhos de 1, e 4 e 5 vão ser filhos de 2. Vamos construir nossa árvore binária! 🏗️</p>
+    <h3>2️⃣ Segundo Passo: Plantando Nossa Árvore</h3>
+    <p>Vamos criar uma árvore especial com estes números:</p>
+    <div style="display: flex; justify-content: center; margin: 20px 0;">
+      <div style="text-align: center;">
+        <div style="font-size: 24px;">1</div>
+        <div style="display: flex; justify-content: center; gap: 40px;">
+          <div>
+            <div style="font-size: 20px;">2</div>
+            <div style="display: flex; justify-content: center; gap: 20px;">
+              <div style="font-size: 16px;">4</div>
+              <div style="font-size: 16px;">5</div>
+            </div>
+          </div>
+          <div style="font-size: 20px;">3</div>
+        </div>
+      </div>
+    </div>
+    <pre><code class="typescript" id="create-tree-code">
+function createBinaryTree(): Node {
+  // 🌱 Plantamos a raiz (o número 1)
+  const root = new Node(1);
+  
+  // 🌿 Adicionamos o galho esquerdo (número 2)
+  root.left = new Node(2);
+  
+  // 🌿 Adicionamos o galho direito (número 3)
+  root.right = new Node(3);
+  
+  // 🍃 O número 2 tem dois galhos menores:
+  root.left.left = new Node(4);   // Galho esquerdo do 2
+  root.left.right = new Node(5);  // Galho direito do 2
 
-  <pre><code class="typescript" id="create-tree-code">
-function createTree(): Node {
-  const root = new Node("Animalia");       // Raiz da árvore 🌱
-  root.left = new Node("Chordata");        // Nó esquerdo 🦎
-  root.right = new Node("Aves");           // Nó direito 🐦
-  root.left.left = new Node("Mammalia");   // Filho esquerdo do nó Chordata 🐘
-  root.left.right = new Node("Carnivora"); // Filho direito do nó Chordata 🐺
-
-  return root; // Retorna a árvore pronta 🌳
+  return root; // 🌳 Retorna nossa árvore completa!
 }
-  </code></pre>
-  <p><strong>⚠️ IMPORTANTE:</strong> O nome que usamos no nó (chamado de <span style="color: red;">data</span>) deve ser o nome de cada grupo de animais 🦓🦒, como "Mammalia" ou "Aves". Isso vai fazer nossa árvore refletir a classificação científica direitinho! 🧬🌍</p>
+    </code></pre>
 
-  <h3>3. Rodando o Código 🚀</h3>
-  <p>Agora que você já entendeu como criar a árvore, é hora de rodar o código 🖥️ para ver ela prontinha! 🎉</p>
+    <h3>3️⃣ Hora de Ver a Mágica Acontecer!</h3>
+    <p>Agora vamos juntar tudo e ver nossa árvore:</p>
+    <ol>
+      <li>1️⃣ Criamos a estrutura do nó</li>
+      <li>2️⃣ Construímos a árvore</li>
+      <li>3️⃣ Vamos mostrar o resultado!</li>
+    </ol>
+    <pre><code class="typescript" id="execute-code">
+// 🌱 Criamos a árvore binária
+const rootNode = createBinaryTree();
 
-  <p>Você vai usar a função <code>createTree</code> para criar a árvore 🌳 e, depois, só clicar em "Executar Código" para ver o resultado! 🎯</p>
-  <pre><code class="typescript" id="execute-code">
-// Criando a árvore 🌲 
-const rootNode = createTree();
-  </code></pre>
-  <p>Basta clicar no botão "Executar Código" e pronto! 🎉🎉</p>
-    <!-- Script para adicionar o botão de cópia em todos os blocos de código -->
-    <script>
-      document.querySelectorAll('pre code').forEach((codeBlock, index) => {
-        // Criando o botão de copiar para cada bloco de código
-        const copyButton = document.createElement('button');
-        copyButton.innerText = '📋';
-        copyButton.classList.add('copy-btn');
-        copyButton.setAttribute('onclick', `copyCode(${index})`);
-  
-        // Adicionando o botão ao bloco de código
-        codeBlock.parentElement.appendChild(copyButton);
-      });
-  
-      function copyCode(index) {
-        const code = document.querySelectorAll('pre code')[index];
-        const range = document.createRange();
-        range.selectNode(code);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-  
-        try {
-          // Tenta copiar para a área de transferência
-          document.execCommand('copy');
-        } catch (err) {
-          console.error('Falha ao copiar o código:', err);
-        }
-  
-        window.getSelection().removeAllRanges(); // Limpa a seleção
-      }
-  </script>
+// 🎉 Mostramos o ponto de partida (a raiz)
+rootNode;
+    </code></pre>
+    
+    <div style="background-color: #fffacd; padding: 15px; border-radius: 10px; margin-top: 20px;">
+      <h3>💡 Dica Importante</h3>
+      <p>Quando você clicar em <strong>"Executar"</strong>, nosso sistema vai transformar sua árvore num desenho colorido! Não precisa se preocupar com essa parte - nós cuidamos de tudo nos bastidores.</p>
+      <p>Observe como cada número está conectado aos outros, como numa grande família!</p>
+    </div>
   </section>
-
-  
 
   <div class="container">
     <div class="editor-container">
@@ -125,20 +123,34 @@ const rootNode = createTree();
   </div>
 
   <script>
+    // Adicionar botões de cópia
+    document.querySelectorAll('pre code').forEach((codeBlock, index) => {
+      const copyButton = document.createElement('button');
+      copyButton.innerText = '📋';
+      copyButton.classList.add('copy-btn');
+      copyButton.onclick = () => {
+        navigator.clipboard.writeText(codeBlock.textContent)
+          .then(() => {
+            copyButton.innerText = '✓';
+            setTimeout(() => copyButton.innerText = '📋', 2000);
+          })
+          .catch(err => console.error('Falha ao copiar:', err));
+      };
+      codeBlock.parentElement.appendChild(copyButton);
+    });
+
     let editor;
     
     require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
     require(['vs/editor/editor.main'], function() {
       editor = monaco.editor.create(document.getElementById('code-editor'), {
         value: [
-          ''
+          
         ].join('\n'),
         language: "typescript",
         theme: "vs-light",
         automaticLayout: true,
-        minimap: {
-          enabled: false
-        },
+        minimap: { enabled: false },
         fontSize: 14,
         lineNumbers: "on",
         roundedSelection: true,
@@ -150,78 +162,50 @@ const rootNode = createTree();
       });
     });
 
-    
+    // Função para converter a árvore binária (oculta do usuário)
+    function convertToTreeNode(binaryNode) {
+      if (binaryNode === null) return null;
+      return {
+        value: binaryNode.data.toString(),
+        children: [
+          convertToTreeNode(binaryNode.left),
+          convertToTreeNode(binaryNode.right),
+        ].filter(child => child !== null),
+      };
+    }
+
     document.getElementById("run-code").addEventListener("click", () => {
       const userCode = editor.getValue();
       const outputDiv = document.getElementById("tree-output");
       const celebrationDiv = document.getElementById("celebration");
 
       try {
-        // Código de conversão que será adicionado automaticamente
-        const conversionCode = `
-          function convertToTreeNode(Node: Node | null): any {
-            if (Node === null) return null;
-            return {
-              value: Node.data.toString(),
-              children: [
-                convertToTreeNode(Node.left),
-                convertToTreeNode(Node.right)
-              ].filter(n => n !== null)
-            };
-          }
-          
-          const rootNode = convertToTreeNode(rootNode);
-          rootNode;
-        `;
-        
-        // Combina o código do usuário com o código de conversão
-        const fullCode = userCode + conversionCode;
-        
         // Transpila TypeScript para JavaScript
-        const compiledCode = ts.transpile(fullCode);
+        const compiledCode = ts.transpile(userCode);
         
-        // Executa o código completo
-        const result = eval(compiledCode);
+        // Executa o código do usuário para obter a árvore binária
+        const rootNodeBinary = eval(compiledCode);
+        
+        // Converte automaticamente para o formato de visualização
+        const result = convertToTreeNode(rootNodeBinary);
         
         outputDiv.innerHTML = "";
         if (result) renderTreeD3(result, outputDiv);
         
         // Árvore esperada em formato de objeto
         const expectedTree = {
-          value: "Animalia",
+          value: "1",
           children: [
             {
-              value: "Chordata",
+              value: "2",
               children: [
-                {
-                  value: "Mammalia",
-                  children: [
-                    {
-                      value: "Primates",
-                      children: [
-                        { value: "Homo sapiens", children: [] }
-                      ]
-                    },
-                    {
-                      value: "Carnivora",
-                      children: [
-                        { value: "Canis lupus", children: [] }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  value: "Aves",
-                  children: [
-                    {
-                      value: "Passeriformes",
-                      children: [
-                        { value: "Corvus corax", children: [] }
-                      ]
-                    }
-                  ]
-                }
+                { value: "4", children: [] },
+                { value: "5", children: [] }
               ]
+            },
+            {
+              value: "3",
+              children: []
             }
           ]
         };
@@ -243,28 +227,7 @@ const rootNode = createTree();
 
         // Verifica se a árvore criada corresponde à esperada
         const isCorrect = compareTrees(result, expectedTree);
-        // Primeiro declare a função separadamente (fora do if/else)
-        function createConfetti() {
-          const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
-          
-          for (let i = 0; i < 150; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            confetti.style.width = (Math.random() * 10 + 5) + 'px';
-            confetti.style.height = confetti.style.width;
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            
-            document.body.appendChild(confetti);
-            
-            // Remove os confetes após a animação
-            setTimeout(() => {
-              confetti.remove();
-            }, 5000);
-          }
-        }
+        
         if (isCorrect) {
           celebrationDiv.style.display = "flex";
           celebrationDiv.innerHTML = `
@@ -286,16 +249,18 @@ const rootNode = createTree();
             </div>
             <div style="text-align: center; margin-top: 20px;">
               <h3>Árvore Esperada:</h3>
-              <img src="imageAtiv4.png" alt="Árvore Taxonômica Esperada" style="max-width: 100%; border: 1px solid #ccc; margin-top: 10px;">
-              <p style="font-style: italic; margin-top: 5px;">Compare com sua solução acima</p>
+              <div id="expected-tree"></div>
             </div>
             <div style="margin-top: 30px; display: flex; gap: 20px;">
-            <button class="try-again-btn" onclick="location.reload()">
-              ↻ Tente Novamente
-            </button>
-          </div>
+              <button class="try-again-btn" onclick="location.reload()">
+                ↻ Tente Novamente
+              </button>
+            </div>
           `;
           celebrationDiv.style.color = "red";
+          
+          // Mostra a árvore esperada
+          renderTreeD3(expectedTree, document.getElementById("expected-tree"));
         }
       } catch (error) {
         outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
@@ -303,23 +268,46 @@ const rootNode = createTree();
       }
     });
 
+    // Função para criar confetes
+    function createConfetti() {
+      const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
+      
+      for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        confetti.style.width = (Math.random() * 10 + 5) + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        
+        document.body.appendChild(confetti);
+        
+        // Remove os confetes após a animação
+        setTimeout(() => {
+          confetti.remove();
+        }, 5000);
+      }
+    }
 
     // Função para renderizar a árvore com D3.js
     function renderTreeD3(tree, container) {
+      container.innerHTML = '';
       const width = 600;
       const height = 300;
-      const verticalOffset = 50; // Ajuste conforme necessário
+      const verticalOffset = 50;
 
       const svg = d3.select(container)
         .append("svg")
         .attr("width", width)
         .attr("height", height + verticalOffset);
 
-      const root = d3.hierarchy(tree); // Usando a estrutura hierárquica do D3
+      const root = d3.hierarchy(tree);
 
       const treeLayout = d3.tree().size([width, height - 100]);
 
-      treeLayout(root); // Calculando as posições dos nós
+      treeLayout(root);
 
       // Adiciona os links entre os nós
       svg.selectAll(".link")
@@ -350,12 +338,12 @@ const rootNode = createTree();
         .attr("text-anchor", "middle")
         .text(d => d.data.value || "Node");
 
-      // Interatividade: ao passar o mouse sobre um nó
-      nodes.on("mouseover", function (event, d) {
+      // Interatividade
+      nodes.on("mouseover", function () {
         d3.select(this)
           .select("circle")
           .attr("fill", "#ff7f0e");
-      }).on("mouseout", function (event, d) {
+      }).on("mouseout", function () {
         d3.select(this)
           .select("circle")
           .attr("fill", "#69b3a2");

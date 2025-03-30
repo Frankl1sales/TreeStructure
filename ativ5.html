@@ -15,67 +15,68 @@
 
 <section class="description">
   <h2>Como Funciona a Atividade 🧩</h2>
-  <p>Nesta atividade, você vai ajudar a encontrar animais escondidos em uma árvore genealógica da floresta usando programação! 🕵️‍♂️🔍</p>
+  <p>Nesta atividade, você vai construir uma árvore 🌲 que organiza alguns animais de acordo com a classificação científica 🦁🐦. A árvore vai ficar assim:</p>
+  <pre><code class="plaintext">
+Animalia
+└── Chordata
+      ├── Mammalia
+      │     ├── Primates
+      │     │     └── Homo sapiens
+      │     └── Carnivora
+      │           └── Canis lupus
+      └── Aves
+            └── Passeriformes
+                  └── Corvus corax
+  </code></pre>
+
+  <p>O objetivo é verificar se a árvore que você criar está certinha, igual à estrutura que mostramos 🌱. Use o editor para construir a árvore e depois clique em "Executar Código" para ver se ficou certo 💻✅.</p>
   
-  <h3>🌲 A Árvore dos Animais</h3>
-  <p>Imagine uma árvore onde cada galho representa um grupo de animais:</p>
-  <pre><code>
-      Animalia
-        │
-        └── Chordata
-               │
-               ├── Mammalia (ex: humanos, lobos)
-               │     │
-               │     ├── Primates
-               │     │     └── Homo sapiens
-               │     │
-               │     └── Carnivora
-               │           └── Canis lupus (lobo)
-               │
-               └── Aves (pássaros)
-                     └── Corvus corax (corvo)
-  </code></pre>
+  <h3>Como Deve Ficar 🔍:</h3>
+  <img src="imageAtiv4.png" alt="Árvore de Animais" width="500" />
+  <p>Siga as instruções abaixo para preencher o código e depois clique em "Executar" para ver a árvore prontinha! 🌳✨</p>
 
-  <h3>💻 Sua Missão de Programação</h3>
-  <p>🌳Você precisa corrigir o erro neste código para usar o nome correto (que é o mistério), que pode estar em qualquer ordem taxonômica.🎉</p>
-  <pre><code>
-  // Implemente sua função de busca aqui
-  function searchNode(root: Node | null, target: string): Node | null {
-    // 1º: Se a árvore estiver vazia, retorne null
-    if (root === null) return null;
-    
-    // 2º: Se achou o animal, retorne ele!
-    if (root.data === target) return root;
-    
-    // 3º: Procure no galho esquerdo
-    const leftResult = searchNode(root.left, target);
-    if (leftResult !== null) return leftResult;
-    
-    // 4º: Se não achou, procure no galho direito
-    const rightResult = searchNode(root.right, target);
-    return rightResult;
+  <h3>1. O Que é um Nó? 🔑</h3>
+  <p>Primeiro, vamos entender o que é um nó 🪴. Um nó é como um "bloco" da nossa árvore 🌲, e dentro dele temos um nome. Esse nome vai ser a classificação de cada grupo de animais 🦁🐦. Cada nó também tem dois "braços" (que chamamos de ponteiros 🤖): um para o lado esquerdo (filho à esquerda) e um para o lado direito (filho à direita).</p>
+  <pre><code class="typescript" id="example-code">
+class Node {
+  data: string;  // Aqui vai o nome do animal ou grupo de animais
+  left: Node | null;
+  right: Node | null;
+
+  constructor(data: string) {
+      this.data = data;
+      this.left = null;
+      this.right = null;
   }
-
-  // Depois chame a função para buscar um animal:
-  const targetNode = searchNode(rootNode, "Mammalia");
+}
   </code></pre>
 
-  <h3>📝 Passo a Passo</h3>
-  <ol>
-    <li>A função recebe a <strong>raiz da árvore</strong> e o <strong>nome do animal</strong> a ser encontrado</li>
-    <li>Ela verifica se o animal está no nó atual</li>
-    <li>Se não estiver, procura nos galhos da esquerda e depois da direita</li>
-    <li>Quando encontrar, retorna o nó com o animal</li>
-  </ol>
+  <h3>2. Criando a Árvore 🌳💡</h3>
+  <p>Agora, vamos criar a árvore de animais! 🐯🦜 Vamos usar uma função chamada <code>createTree</code> para criar os nós e montá-la 🌟:</p>
+  <p>O número 1 vai ser o começo da árvore (a raiz 🌱), o número 2 e o número 3 vão ser filhos de 1, e 4 e 5 vão ser filhos de 2. Vamos construir nossa árvore binária! 🏗️</p>
 
-  <h3>🌟 Dica Importante</h3>
-  <p>A função chama a si mesma para procurar nos galhos - isso se chama <strong>RECURSÃO</strong>! É como se você pedisse para um amigo procurar em cada parte da árvore.</p>
+  <pre><code class="typescript" id="create-tree-code">
+function createTree(): Node {
+  const root = new Node("Animalia");       // Raiz da árvore 🌱
+  root.left = new Node("Chordata");        // Nó esquerdo 🦎
+  root.right = new Node("Aves");           // Nó direito 🐦
+  root.left.left = new Node("Mammalia");   // Filho esquerdo do nó Chordata 🐘
+  root.left.right = new Node("Carnivora"); // Filho direito do nó Chordata 🐺
 
-  <div class="tip">
-    <p>🔹 Se acertar, aparecerá um quadrado vermelho no animal encontrado!</p>
-    <p>🔹 Se errar, o computador vai te avisar para tentar de novo!</p>
-  </div>
+  return root; // Retorna a árvore pronta 🌳
+}
+  </code></pre>
+  <p><strong>⚠️ IMPORTANTE:</strong> O nome que usamos no nó (chamado de <span style="color: red;">data</span>) deve ser o nome de cada grupo de animais 🦓🦒, como "Mammalia" ou "Aves". Isso vai fazer nossa árvore refletir a classificação científica direitinho! 🧬🌍</p>
 
+  <h3>3. Rodando o Código 🚀</h3>
+  <p>Agora que você já entendeu como criar a árvore, é hora de rodar o código 🖥️ para ver ela prontinha! 🎉</p>
+
+  <p>Você vai usar a função <code>createTree</code> para criar a árvore 🌳 e, depois, só clicar em "Executar Código" para ver o resultado! 🎯</p>
+  <pre><code class="typescript" id="execute-code">
+// Criando a árvore 🌲 
+const rootNode = createTree();
+  </code></pre>
+  <p>Basta clicar no botão "Executar Código" e pronto! 🎉🎉</p>
     <!-- Script para adicionar o botão de cópia em todos os blocos de código -->
     <script>
       document.querySelectorAll('pre code').forEach((codeBlock, index) => {
@@ -109,6 +110,7 @@
   </section>
 
   
+
   <div class="container">
     <div class="editor-container">
       <div id="code-editor"></div>
@@ -118,104 +120,131 @@
     <div id="output-container">
       <h2>Visualização da Árvore</h2>
       <div id="tree-output"></div>
-      <div class="celebration" id="celebration" style="display: none;">
-        🎆 Parabéns! Você acertou! 🎆
-      </div>
+      <div class="celebration" id="celebration" style="display: none;"></div>
     </div>
   </div>
-  
+
   <script>
     let editor;
-  let currentTree = null;
-  let foundNodeValue = null;
-  
-  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
-  require(['vs/editor/editor.main'], function() {
-    editor = monaco.editor.create(document.getElementById('code-editor'), {
-      value: [
-        ''
-      ].join('\n'),
-      language: "typescript",
-      theme: "vs-light",
-      automaticLayout: true,
-      minimap: {
-        enabled: false
-      },
-      fontSize: 14,
-      lineNumbers: "on",
-      roundedSelection: true,
-      scrollBeyondLastLine: false,
-      wordWrap: "on",
-      renderWhitespace: "none",
-      autoClosingBrackets: "always",
-      tabSize: 2
+    
+    require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
+    require(['vs/editor/editor.main'], function() {
+      editor = monaco.editor.create(document.getElementById('code-editor'), {
+        value: [
+          ''
+        ].join('\n'),
+        language: "typescript",
+        theme: "vs-light",
+        automaticLayout: true,
+        minimap: {
+          enabled: false
+        },
+        fontSize: 14,
+        lineNumbers: "on",
+        roundedSelection: true,
+        scrollBeyondLastLine: false,
+        wordWrap: "on",
+        renderWhitespace: "none",
+        autoClosingBrackets: "always",
+        tabSize: 2
+      });
     });
-  });
 
-  document.getElementById("run-code").addEventListener("click", () => {
-    const userCode = editor.getValue();
-    const outputDiv = document.getElementById("tree-output");
-    const celebrationDiv = document.getElementById("celebration");
+    
+    document.getElementById("run-code").addEventListener("click", () => {
+      const userCode = editor.getValue();
+      const outputDiv = document.getElementById("tree-output");
+      const celebrationDiv = document.getElementById("celebration");
 
-    try {
-      // Código base que será adicionado automaticamente
-      const baseCode = `
-        class Node {
-          data: string;
-          left: Node | null;
-          right: Node | null;
-        
-          constructor(data: string) {
-            this.data = data;
-            this.left = null;
-            this.right = null;
+      try {
+        // Código de conversão que será adicionado automaticamente
+        const conversionCode = `
+          function convertToTreeNode(Node: Node | null): any {
+            if (Node === null) return null;
+            return {
+              value: Node.data.toString(),
+              children: [
+                convertToTreeNode(Node.left),
+                convertToTreeNode(Node.right)
+              ].filter(n => n !== null)
+            };
           }
-        }
+          
+          const rootNode = convertToTreeNode(rootNode);
+          rootNode;
+        `;
         
-        function createTree(): Node {
-          const root = new Node("Animalia");
-          root.left = new Node("Chordata");
-          root.left.left = new Node("Mammalia");
-          root.left.left.left = new Node("Primates");
-          root.left.left.left.left = new Node("Homo sapiens");
-          root.left.left.right = new Node("Carnivora");
-          root.left.left.right.left = new Node("Canis lupus");
-          root.left.right = new Node("Aves");
-          root.left.right.left = new Node("Passeriformes");
-          root.left.right.left.left = new Node("Corvus corax");
-          return root;
-        }
+        // Combina o código do usuário com o código de conversão
+        const fullCode = userCode + conversionCode;
         
-        function convertToTreeNode(Node: Node | null): any {
-          if (Node === null) return null;
-          return {
-            value: Node.data.toString(),
-            children: [
-              convertToTreeNode(Node.left),
-              convertToTreeNode(Node.right)
-            ].filter(n => n !== null)
-          };
-        }
+        // Transpila TypeScript para JavaScript
+        const compiledCode = ts.transpile(fullCode);
         
-        const rootNode = createTree();
-      `;
-      
-      // Combina o código base, o código do usuário e a conversão
-      const fullCode = baseCode + userCode + `
-        foundNodeValue = targetNode ? targetNode.data : null;
-        convertToTreeNode(rootNode);
-      `;
-      
-      // Transpila TypeScript para JavaScript
-      const compiledCode = ts.transpile(fullCode);
-      
-      // Executa o código completo
-      currentTree = eval(compiledCode);
-      
-      outputDiv.innerHTML = "";
-      if (currentTree) renderTreeD3(currentTree, outputDiv);
-      // Primeiro declare a função separadamente (fora do if/else)
-      function createConfetti() {
+        // Executa o código completo
+        const result = eval(compiledCode);
+        
+        outputDiv.innerHTML = "";
+        if (result) renderTreeD3(result, outputDiv);
+        
+        // Árvore esperada em formato de objeto
+        const expectedTree = {
+          value: "Animalia",
+          children: [
+            {
+              value: "Chordata",
+              children: [
+                {
+                  value: "Mammalia",
+                  children: [
+                    {
+                      value: "Primates",
+                      children: [
+                        { value: "Homo sapiens", children: [] }
+                      ]
+                    },
+                    {
+                      value: "Carnivora",
+                      children: [
+                        { value: "Canis lupus", children: [] }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  value: "Aves",
+                  children: [
+                    {
+                      value: "Passeriformes",
+                      children: [
+                        { value: "Corvus corax", children: [] }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        };
+
+        // Função para comparar duas árvores
+        function compareTrees(tree1, tree2) {
+          if (!tree1 || !tree2) return false;
+          if (tree1.value !== tree2.value) return false;
+          if (tree1.children.length !== tree2.children.length) return false;
+          
+          for (let i = 0; i < tree1.children.length; i++) {
+            if (!compareTrees(tree1.children[i], tree2.children[i])) {
+              return false;
+            }
+          }
+          
+          return true;
+        }
+
+        // Verifica se a árvore criada corresponde à esperada
+        const isCorrect = compareTrees(result, expectedTree);
+        // Primeiro declare a função separadamente (fora do if/else)
+        function createConfetti() {
           const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
           
           for (let i = 0; i < 150; i++) {
@@ -236,100 +265,102 @@
             }, 5000);
           }
         }
-      // Verifica se a busca funcionou corretamente
-      if (foundNodeValue === "Canis lupus") {
-      celebrationDiv.style.display = "flex";
-      celebrationDiv.innerHTML = `
-        <div style="font-size: 4rem; margin-bottom: 2rem;">🎉 PARABÉNS! 🎉</div>
-        <div style="font-size: 2rem;">Você encontrou o Canis lupus!</div>
-        <div style="font-size: 3rem; margin-top: 2rem;">🎆 🌟 🏆</div>
-        <button class="continue-btn" onclick="this.parentElement.style.display='none'">
+        if (isCorrect) {
+          celebrationDiv.style.display = "flex";
+          celebrationDiv.innerHTML = `
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🌳 PARABÉNS! 🌳</div>
+            <div style="font-size: 2rem; margin-bottom: 2rem;">Você construiu a árvore corretamente!</div>
+            <div style="font-size: 3rem; margin: 1rem 0;">🎉 🌟 🎊</div>
+            <button class="continue-btn" onclick="this.parentElement.style.display='none'">
               Continuar
             </button>
-      `;
-        // Adiciona confetes
-        createConfetti();
-      } else {
-        celebrationDiv.style.display = "flex";
-        celebrationDiv.innerHTML = `
-          ❌ O nó 'Canis lupus' não foi encontrado. Verifique sua implementação. ❌ 
-        <div style="margin-top: 30px; display: flex; gap: 20px;">
+          `;
+          
+          // Adiciona confetes
+          createConfetti();
+        } else {
+          celebrationDiv.style.display = "flex";
+          celebrationDiv.innerHTML = `
+            <div style="margin-bottom: 10px;">
+              ❌ A árvore não corresponde à estrutura esperada. ❌
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+              <h3>Árvore Esperada:</h3>
+              <img src="imageAtiv4.png" alt="Árvore Taxonômica Esperada" style="max-width: 100%; border: 1px solid #ccc; margin-top: 10px;">
+              <p style="font-style: italic; margin-top: 5px;">Compare com sua solução acima</p>
+            </div>
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
             <button class="try-again-btn" onclick="location.reload()">
               ↻ Tente Novamente
             </button>
-          </div> `;
-        celebrationDiv.style.color = "red";
-        
+          </div>
+          `;
+          celebrationDiv.style.color = "red";
+        }
+      } catch (error) {
+        outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
+        celebrationDiv.style.display = "none";
       }
-    } catch (error) {
-      outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
-      celebrationDiv.style.display = "none";
-    }
-  });
-
-  // Função renderTreeD3 permanece a mesma
-  function renderTreeD3(tree, container) {
-    const width = 600;
-    const height = 300;
-    const verticalOffset = 50;
-
-    const svg = d3.select(container)
-      .append("svg")
-      .attr("width", width)
-      .attr("height", height + verticalOffset);
-
-    const root = d3.hierarchy(tree);
-
-    const treeLayout = d3.tree().size([width, height - 100]);
-
-    treeLayout(root);
-
-    svg.selectAll(".link")
-      .data(root.links())
-      .enter()
-      .append("line")
-      .attr("class", "link")
-      .attr("x1", d => d.source.x)
-      .attr("y1", d => d.source.y + verticalOffset)
-      .attr("x2", d => d.target.x)
-      .attr("y2", d => d.target.y + verticalOffset)
-      .attr("stroke", "#ccc");
-
-    const nodes = svg.selectAll(".node")
-      .data(root.descendants())
-      .enter()
-      .append("g")
-      .attr("class", "node")
-      .attr("transform", d => `translate(${d.x},${d.y + verticalOffset})`);
-
-    nodes.append("circle")
-      .attr("r", 10)
-      .attr("fill", d => d.data.value === foundNodeValue ? "#ff0000" : "#69b3a2");
-
-    nodes.filter(d => d.data.value === foundNodeValue)
-      .append("rect")
-      .attr("x", -12)
-      .attr("y", -12)
-      .attr("width", 24)
-      .attr("height", 24)
-      .attr("fill", "none")
-      .attr("stroke", "#ff0000")
-      .attr("stroke-width", 2);
-
-    nodes.append("text")
-      .attr("dy", -15)
-      .attr("text-anchor", "middle")
-      .text(d => d.data.value || "Node");
-
-    nodes.on("mouseover", function (event, d) {
-      d3.select(this)
-        .select("circle")
-        .attr("fill", "#ff7f0e");
-    }).on("mouseout", function (event, d) {
-      const isFoundNode = d.data.value === foundNodeValue;
-      d3.select(this)
-        .select("circle")
-        .attr("fill", isFoundNode ? "#ff0000" : "#69b3a2");
     });
-  }
+
+
+    // Função para renderizar a árvore com D3.js
+    function renderTreeD3(tree, container) {
+      const width = 600;
+      const height = 300;
+      const verticalOffset = 50; // Ajuste conforme necessário
+
+      const svg = d3.select(container)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height + verticalOffset);
+
+      const root = d3.hierarchy(tree); // Usando a estrutura hierárquica do D3
+
+      const treeLayout = d3.tree().size([width, height - 100]);
+
+      treeLayout(root); // Calculando as posições dos nós
+
+      // Adiciona os links entre os nós
+      svg.selectAll(".link")
+        .data(root.links())
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y + verticalOffset)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y + verticalOffset)
+        .attr("stroke", "#ccc");
+
+      // Adiciona os nós
+      const nodes = svg.selectAll(".node")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", d => `translate(${d.x},${d.y + verticalOffset})`);
+
+      nodes.append("circle")
+        .attr("r", 10)
+        .attr("fill", "#69b3a2");
+
+      nodes.append("text")
+        .attr("dy", -15)
+        .attr("text-anchor", "middle")
+        .text(d => d.data.value || "Node");
+
+      // Interatividade: ao passar o mouse sobre um nó
+      nodes.on("mouseover", function (event, d) {
+        d3.select(this)
+          .select("circle")
+          .attr("fill", "#ff7f0e");
+      }).on("mouseout", function (event, d) {
+        d3.select(this)
+          .select("circle")
+          .attr("fill", "#69b3a2");
+      });
+    }
   </script>
+</body>
+</html>

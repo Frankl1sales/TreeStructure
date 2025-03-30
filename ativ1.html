@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atividade 1 - Descobrindo Árvores Binárias</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      background-color: #e6f7ff;
+      padding: 20px;
+      color: #2d3436;
+    }
+    h1 {
+      color: #2e86de;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    .subtitle {
+      font-size: 1.2em;
+      color: #0984e3;
+      margin-bottom: 30px;
+    }
+    .question-container {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .question-number {
+      position: absolute;
+      top: -15px;
+      left: 20px;
+      background-color: #74b9ff;
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .question {
+      font-size: 1.3em;
+      margin-bottom: 20px;
+      color: #2e86de;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .options button {
+      padding: 12px 20px;
+      font-size: 1.1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 50px;
+      background-color: #dfe6e9;
+      color: #2d3436;
+      transition: all 0.3s;
+      text-align: left;
+      position: relative;
+      padding-left: 50px;
+    }
+    .options button:hover {
+      background-color: #b2bec3;
+      transform: scale(1.01);
+    }
+    .options button::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: white;
+      border: 2px solid #636e72;
+    }
+    .celebration {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(253, 203, 110, 0.8);
+      z-index: 100;
+      text-align: center;
+    }
+    .celebration-text {
+      font-size: 2em;
+      color: #e17055;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    }
+    .emoji {
+      font-size: 3em;
+      margin: 10px;
+      display: inline-block;
+      animation: bounce 0.5s infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+    #score {
+      font-size: 1.5em;
+      background-color: #ffeaa7;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      color: #e17055;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .correct {
+      background-color: #55efc4 !important;
+      color: #006400 !important;
+    }
+    .correct::before {
+      content: '✓';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #00b894;
+      border: none;
+    }
+    .incorrect {
+      background-color: #fab1a0 !important;
+      color: #d63031 !important;
+    }
+    .incorrect::before {
+      content: '✗';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background-color: #d63031;
+      border: none;
+    }
+    .explanation {
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #dfe6e9;
+      border-radius: 10px;
+      font-size: 0.9em;
+      display: none;
+      text-align: left;
+      border-left: 4px solid #74b9ff;
+    }
+    .continue-btn {
+      background-color: #00b894 !important;
+      color: white !important;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: center;
+      padding-left: 20px !important;
+    }
+    .continue-btn::before {
+      display: none;
+    }
+    .tree-icon {
+      width: 100px;
+      margin: 10px auto;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌳 Descobrindo Árvores Binárias 🌳</h1>
+  <p class="subtitle">Um quiz divertido sobre estruturas de dados!</p>
+  
+  <div id="score">🏆 Pontuação: 0</div>
+  
+  <img src="tree-icon.png" alt="Árvore binária" class="tree-image">
+
+  <!-- Questão 1 -->
+  <div class="question-container" id="question1">
+    <div class="question-number">1</div>
+    <div class="question">Na computação, uma árvore é como:</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question1', 'Pense numa família, onde cada pessoa pode ter filhos que também podem ter seus próprios filhos!')">
+        Uma escada onde só podemos subir ou descer um degrau por vez
+      </button>
+      <button onclick="checkAnswer(this, false, 'question1', 'Pense numa família, onde cada pessoa pode ter filhos que também podem ter seus próprios filhos!')">
+        Um círculo de amigos onde todos estão conectados igualmente
+      </button>
+      <button onclick="checkAnswer(this, true, 'question1', 'Pense numa família, onde cada pessoa pode ter filhos que também podem ter seus próprios filhos!')">
+        Uma família, onde cada pessoa pode ter filhos que também podem ter seus próprios filhos!
+      </button>
+      <button onclick="checkAnswer(this, false, 'question1', 'Pense numa família, onde cada pessoa pode ter filhos que também podem ter seus próprios filhos!')">
+        Um dicionário onde procuramos palavras em ordem alfabética
+      </button>
+    </div>
+    <div class="explanation" id="explanation1"></div>
+  </div>
+
+  <!-- Questão 2 -->
+  <div class="question-container" id="question2">
+    <div class="question-number">2</div>
+    <div class="question">Uma árvore BINÁRIA é especial porque:</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question2', 'Assim como você tem duas mãos, cada nó pode ter no máximo dois filhos!')">
+        Todos os seus galhos têm exatamente o mesmo tamanho
+      </button>
+      <button onclick="checkAnswer(this, true, 'question2', 'Assim como você tem duas mãos, cada nó pode ter no máximo dois filhos!')">
+        Cada "pessoa" na família pode ter no máximo dois filhos
+      </button>
+      <button onclick="checkAnswer(this, false, 'question2', 'Assim como você tem duas mãos, cada nó pode ter no máximo dois filhos!')">
+        Ela só cresce durante o inverno
+      </button>
+      <button onclick="checkAnswer(this, false, 'question2', 'Assim como você tem duas mãos, cada nó pode ter no máximo dois filhos!')">
+        Os números nela sempre estão em ordem alfabética
+      </button>
+    </div>
+    <div class="explanation" id="explanation2"></div>
+  </div>
+
+  <!-- Questão 3 -->
+  <div class="question-container" id="question3">
+    <div class="question-number">3</div>
+    <div class="question">A "raiz" da árvore é como:</div>
+    <div class="options">
+      <button onclick="checkAnswer(this, false, 'question3', 'A raiz é como o avô ou avó da família - todos descendem dela, mas ela não tem pais!')">
+        O filho mais novo da família
+      </button>
+      <button onclick="checkAnswer(this, false, 'question3', 'A raiz é como o avô ou avó da família - todos descendem dela, mas ela não tem pais!')">
+        Um galho que não tem folhas
+      </button>
+      <button onclick="checkAnswer(this, true, 'question3', 'A raiz é como o avô ou avó da família - todos descendem dela, mas ela não tem pais!')">
+        O avô ou avó da família - todos descendem dela, mas ela não tem "pais"
+      </button>
+      <button onclick="checkAnswer(this, false, 'question3', 'A raiz é como o avô ou avó da família - todos descendem dela, mas ela não tem pais!')">
+        A folha mais bonita da árvore
+      </button>
+    </div>
+    <div class="explanation" id="explanation3"></div>
+  </div>
+
+  <!-- Celebração -->
+  <div class="celebration" id="celebration">
+    <div class="celebration-text">🎉 Parabéns! 🎉</div>
+    <div class="animal">🐵</div>
+    <div class="animal">🦊</div>
+    <div class="animal">🐻</div>
+    <p>Você está aprendendo muito sobre árvores binárias!</p>
+    <button class="options continue-btn" onclick="hideCelebration()">Continuar</button>
+  </div>
+
+  <script>
+    let score = 0;
+    updateScore();
+
+    function checkAnswer(button, isCorrect, questionId, explanation) {
+      // Desativa todos os botões da questão
+      const buttons = document.querySelectorAll(`#${questionId} .options button`);
+      buttons.forEach(btn => {
+        btn.onclick = null;
+        btn.style.cursor = 'default';
+      });
+
+      // Mostra explicação
+      const explanationDiv = document.getElementById(`explanation${questionId.slice(-1)}`);
+      explanationDiv.innerHTML = `<strong>💡 Explicação:</strong> ${explanation}`;
+      explanationDiv.style.display = 'block';
+
+      if (isCorrect) {
+        button.classList.add('correct');
+        score++;
+        updateScore();
+        showCelebration();
+      } else {
+        button.classList.add('incorrect');
+        // Mostra a resposta correta
+        buttons.forEach(btn => {
+          if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes('true')) {
+            btn.classList.add('correct');
+          }
+        });
+      }
+    }
+
+    function updateScore() {
+      document.getElementById('score').textContent = `🏆 Pontuação: ${score}`;
+      localStorage.setItem('treeQuizScore', score);
+    }
+
+    function showCelebration() {
+      document.getElementById('celebration').style.display = 'block';
+      // Animação aleatória dos animais
+      const animals = document.querySelectorAll('.animal');
+      animals.forEach(animal => {
+        animal.style.animationDuration = `${Math.random() * 0.5 + 0.3}s`;
+      });
+    }
+
+    function hideCelebration() {
+      document.getElementById('celebration').style.display = 'none';
+    }
+
+    // Carrega pontuação salva
+    window.onload = function() {
+      const savedScore = localStorage.getItem('treeQuizScore');
+      if (savedScore) {
+        score = parseInt(savedScore);
+        updateScore();
+      }
+    };
+  </script>
+</body>
+</html>
