@@ -10,74 +10,73 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
 </head>
 
-<body>
-  <h1>Código da Floresta</h1>
-  <img src="capivaras2.png" alt="capivaraimage" style="width: 100%; height: auto;" />
+<h1>Código da Floresta 🌳🐾</h1>
+<img src="capivaras2.png" alt="Capivara imagem" style="width: 100%; height: auto;" />
 
-
-  <section class="description">
-    <h2>Descrição da Atividade</h2>
-    <p>Na atividade proposta, você irá construir uma árvore que segue a classificação taxonômica de alguns animais. A árvore será do tipo:</p>
-    <pre><code class="plaintext">
+<section class="description">
+  <h2>Como Funciona a Atividade 🧩</h2>
+  <p>Nesta atividade, você vai construir uma árvore 🌲 que organiza alguns animais de acordo com a classificação científica 🦁🐦. A árvore vai ficar assim:</p>
+  <pre><code class="plaintext">
 Animalia
-  └── Chordata
-        ├── Mammalia
-        │     ├── Primates
-        │     │     └── Homo sapiens
-        │     └── Carnivora
-        │           └── Canis lupus
-        └── Aves
-              └── Passeriformes
-                    └── Corvus corax
-    </code></pre>
+└── Chordata
+      ├── Mammalia
+      │     ├── Primates
+      │     │     └── Homo sapiens
+      │     └── Carnivora
+      │           └── Canis lupus
+      └── Aves
+            └── Passeriformes
+                  └── Corvus corax
+  </code></pre>
 
-    <p>O objetivo é validar se a estrutura criada corresponde exatamente à esperada. Utilize o editor para criar sua árvore e clique em "Executar Código" para verificar sua solução.</p>
-    <h3>Visual Esperado:</h3>
-    <img src="imageAtiv4.png" alt="Árvore Taxonômica" width="500" />
-    <p>Por favor, siga as instruções abaixo para preencher o código completo no editor. Quando terminar, clique no botão "Executar" para visualizar a árvore binária gerada.</p>
+  <p>O objetivo é verificar se a árvore que você criar está certinha, igual à estrutura que mostramos 🌱. Use o editor para construir a árvore e depois clique em "Executar Código" para ver se ficou certo 💻✅.</p>
+  
+  <h3>Como Deve Ficar 🔍:</h3>
+  <img src="imageAtiv4.png" alt="Árvore de Animais" width="500" />
+  <p>Siga as instruções abaixo para preencher o código e depois clique em "Executar" para ver a árvore prontinha! 🌳✨</p>
 
-        <h3>1. Definição do Nó</h3>
-        <p>Primeiro, definimos a estrutura do nó. Nesta árvore específica, cada nó tem um valor (<span style="color: red;">data</span>), que nesse caso deve ser uma <span style="color: red;">string</span>, pois armazenará os nomes de cada ordem na árvore taxonômica. Além disso, cada nó possui dois ponteiros: um para o filho à esquerda (<span style="color: red;">left</span>) e outro para o filho à direita (<span style="color: red;">right</span>).</p>
-        <pre><code class="typescript" id="example-code">
+  <h3>1. O Que é um Nó? 🔑</h3>
+  <p>Primeiro, vamos entender o que é um nó 🪴. Um nó é como um "bloco" da nossa árvore 🌲, e dentro dele temos um nome. Esse nome vai ser a classificação de cada grupo de animais 🦁🐦. Cada nó também tem dois "braços" (que chamamos de ponteiros 🤖): um para o lado esquerdo (filho à esquerda) e um para o lado direito (filho à direita).</p>
+  <pre><code class="typescript" id="example-code">
 class Node {
-    data: number;
-    left: Node | null;
-    right: Node | null;
+  data: string;  // Aqui vai o nome do animal ou grupo de animais
+  left: Node | null;
+  right: Node | null;
 
-    constructor(data: number) {
-        this.data = data;
-        this.left = null;
-        this.right = null;
-    }
+  constructor(data: string) {
+      this.data = data;
+      this.left = null;
+      this.right = null;
+  }
 }
-        </code></pre>
+  </code></pre>
 
-        <h3>2. Função para Criar a Árvore</h3>
-        <p>Agora, criamos a árvore. Vamos definir uma função chamada <code>createTree</code> que criará a árvore com os seguintes nós:</p>
-        <p>1 será a raiz da árvore, 2 e 3 serão os filhos de 1 e 4 e 5 serão filhos de 2.</p>
-        
-        <pre><code class="typescript" id="create-tree-code">
+  <h3>2. Criando a Árvore 🌳💡</h3>
+  <p>Agora, vamos criar a árvore de animais! 🐯🦜 Vamos usar uma função chamada <code>createTree</code> para criar os nós e montá-la 🌟:</p>
+  <p>O número 1 vai ser o começo da árvore (a raiz 🌱), o número 2 e o número 3 vão ser filhos de 1, e 4 e 5 vão ser filhos de 2. Vamos construir nossa árvore binária! 🏗️</p>
+
+  <pre><code class="typescript" id="create-tree-code">
 function createTree(): Node {
-    const root = new Node(1);        // Raiz da árvore
-    root.left = new Node(2);         // Nó esquerdo
-    root.right = new Node(3);        // Nó direito
-    root.left.left = new Node(4);    // Filho esquerdo do nó 2
-    root.left.right = new Node(5);   // Filho direito do nó 2
+  const root = new Node("Animalia");       // Raiz da árvore 🌱
+  root.left = new Node("Chordata");        // Nó esquerdo 🦎
+  root.right = new Node("Aves");           // Nó direito 🐦
+  root.left.left = new Node("Mammalia");   // Filho esquerdo do nó Chordata 🐘
+  root.left.right = new Node("Carnivora"); // Filho direito do nó Chordata 🐺
 
-    return root; // Retorna a árvore binária
+  return root; // Retorna a árvore pronta 🌳
 }
-    </code></pre>
-    <p><strong>⚠️ AVISO:</strong> O nome da propriedade "data" deve ser renomeado para representar os nomes de cada <span style="color: red;">ordem</span> na árvore taxonômica, de acordo com a estrutura hierárquica de classificação dos organismos. Isso garantirá que os valores da árvore reflitam corretamente a taxonomia. 🧬🌳</p>
+  </code></pre>
+  <p><strong>⚠️ IMPORTANTE:</strong> O nome que usamos no nó (chamado de <span style="color: red;">data</span>) deve ser o nome de cada grupo de animais 🦓🦒, como "Mammalia" ou "Aves". Isso vai fazer nossa árvore refletir a classificação científica direitinho! 🧬🌍</p>
 
-    <h3>4. Executando o Código</h3>
-    <p>Agora que você já tem as funções para definir o nó, criar a árvore, vamos executar o código completo para visualizar o resultado.</p>
+  <h3>3. Rodando o Código 🚀</h3>
+  <p>Agora que você já entendeu como criar a árvore, é hora de rodar o código 🖥️ para ver ela prontinha! 🎉</p>
 
-    <p>O próximo passo é criar a árvore utilizando a função <code>createTree</code>:</p>
-    <pre><code class="typescript" id="execute-code">
-// Criando a árvore 
+  <p>Você vai usar a função <code>createTree</code> para criar a árvore 🌳 e, depois, só clicar em "Executar Código" para ver o resultado! 🎯</p>
+  <pre><code class="typescript" id="execute-code">
+// Criando a árvore 🌲 
 const rootNode = createTree();
-    </code></pre>
-    <p>Agora basta clicar no botão "Executar Código":</p>
+  </code></pre>
+  <p>Basta clicar no botão "Executar Código" e pronto! 🎉🎉</p>
     <!-- Script para adicionar o botão de cópia em todos os blocos de código -->
     <script>
       document.querySelectorAll('pre code').forEach((codeBlock, index) => {
