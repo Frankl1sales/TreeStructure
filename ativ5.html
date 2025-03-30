@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Árvores</title>
+  <link rel="stylesheet" href="styles2.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/typescript@4.9.4/lib/typescript.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs/loader.min.js"></script>
+</head>
+
+<h1>Código da Floresta 🌳🐾</h1>
+<img src="capivaras2.png" alt="Capivara imagem" style="width: 100%; height: auto;" />
+
+<section class="description">
+  <h2>Como Funciona a Atividade 🧩</h2>
+  <p>Nesta atividade, você vai ajudar a encontrar animais escondidos em uma árvore genealógica da floresta usando programação! 🕵️‍♂️🔍</p>
+  
+  <h3>🌲 A Árvore dos Animais</h3>
+  <p>Imagine uma árvore onde cada galho representa um grupo de animais:</p>
+  <pre><code>
+      Animalia
+        │
+        └── Chordata
+               │
+               ├── Mammalia (ex: humanos, lobos)
+               │     │
+               │     ├── Primates
+               │     │     └── Homo sapiens
+               │     │
+               │     └── Carnivora
+               │           └── Canis lupus (lobo)
+               │
+               └── Aves (pássaros)
+                     └── Corvus corax (corvo)
+  </code></pre>
+
+  <h3>💻 Sua Missão de Programação</h3>
+  <p>🌳Você precisa corrigir o erro neste código para usar o nome correto (que é o mistério), que pode estar em qualquer ordem taxonômica.🎉</p>
+  <pre><code>
+  // Implemente sua função de busca aqui
+  function searchNode(root: Node | null, target: string): Node | null {
+    // 1º: Se a árvore estiver vazia, retorne null
+    if (root === null) return null;
+    
+    // 2º: Se achou o animal, retorne ele!
+    if (root.data === target) return root;
+    
+    // 3º: Procure no galho esquerdo
+    const leftResult = searchNode(root.left, target);
+    if (leftResult !== null) return leftResult;
+    
+    // 4º: Se não achou, procure no galho direito
+    const rightResult = searchNode(root.right, target);
+    return rightResult;
+  }
+
+  // Depois chame a função para buscar um animal:
+  const targetNode = searchNode(rootNode, "Mammalia");
+  </code></pre>
+
+  <h3>📝 Passo a Passo</h3>
+  <ol>
+    <li>A função recebe a <strong>raiz da árvore</strong> e o <strong>nome do animal</strong> a ser encontrado</li>
+    <li>Ela verifica se o animal está no nó atual</li>
+    <li>Se não estiver, procura nos galhos da esquerda e depois da direita</li>
+    <li>Quando encontrar, retorna o nó com o animal</li>
+  </ol>
+
+  <h3>🌟 Dica Importante</h3>
+  <p>A função chama a si mesma para procurar nos galhos - isso se chama <strong>RECURSÃO</strong>! É como se você pedisse para um amigo procurar em cada parte da árvore.</p>
+
+  <div class="tip">
+    <p>🔹 Se acertar, aparecerá um quadrado vermelho no animal encontrado!</p>
+    <p>🔹 Se errar, o computador vai te avisar para tentar de novo!</p>
+  </div>
+
+    <!-- Script para adicionar o botão de cópia em todos os blocos de código -->
+    <script>
+      document.querySelectorAll('pre code').forEach((codeBlock, index) => {
+        // Criando o botão de copiar para cada bloco de código
+        const copyButton = document.createElement('button');
+        copyButton.innerText = '📋';
+        copyButton.classList.add('copy-btn');
+        copyButton.setAttribute('onclick', `copyCode(${index})`);
+  
+        // Adicionando o botão ao bloco de código
+        codeBlock.parentElement.appendChild(copyButton);
+      });
+  
+      function copyCode(index) {
+        const code = document.querySelectorAll('pre code')[index];
+        const range = document.createRange();
+        range.selectNode(code);
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+  
+        try {
+          // Tenta copiar para a área de transferência
+          document.execCommand('copy');
+        } catch (err) {
+          console.error('Falha ao copiar o código:', err);
+        }
+  
+        window.getSelection().removeAllRanges(); // Limpa a seleção
+      }
+  </script>
+  </section>
+
+  
+  <div class="container">
+    <div class="editor-container">
+      <div id="code-editor"></div>
+      <button id="run-code">Executar Código</button>
+    </div>
+    
+    <div id="output-container">
+      <h2>Visualização da Árvore</h2>
+      <div id="tree-output"></div>
+      <div class="celebration" id="celebration" style="display: none;">
+        🎆 Parabéns! Você acertou! 🎆
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    let editor;
+  let currentTree = null;
+  let foundNodeValue = null;
+  
+  require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
+  require(['vs/editor/editor.main'], function() {
+    editor = monaco.editor.create(document.getElementById('code-editor'), {
+      value: [
+        '// Implemente sua função de busca aqui',
+        'function searchNode(root: Node | null, target: string): Node | null {',
+        '  // Sua implementação vai aqui',
+        '  if (root === null) return null;',
+        '  if (root.data === target) return root;',
+        '  ',
+        '  const leftResult = searchNode(root.left, target);',
+        '  if (leftResult !== null) return leftResult;',
+        '  ',
+        '  const rightResult = searchNode(root.right, target);',
+        '  return rightResult;',
+        '}',
+        '',
+        '// Execute a busca pelo nó "Canis lupus"',
+        'const targetNode = searchNode(rootNode, "Canis lupus");'
+      ].join('\n'),
+      language: "typescript",
+      theme: "vs-light",
+      automaticLayout: true,
+      minimap: {
+        enabled: false
+      },
+      fontSize: 14,
+      lineNumbers: "on",
+      roundedSelection: true,
+      scrollBeyondLastLine: false,
+      wordWrap: "on",
+      renderWhitespace: "none",
+      autoClosingBrackets: "always",
+      tabSize: 2
+    });
+  });
+
+  document.getElementById("run-code").addEventListener("click", () => {
+    const userCode = editor.getValue();
+    const outputDiv = document.getElementById("tree-output");
+    const celebrationDiv = document.getElementById("celebration");
+
+    try {
+      // Código base que será adicionado automaticamente
+      const baseCode = `
+        class Node {
+          data: string;
+          left: Node | null;
+          right: Node | null;
+        
+          constructor(data: string) {
+            this.data = data;
+            this.left = null;
+            this.right = null;
+          }
+        }
+        
+        function createTree(): Node {
+          const root = new Node("Animalia");
+          root.left = new Node("Chordata");
+          root.left.left = new Node("Mammalia");
+          root.left.left.left = new Node("Primates");
+          root.left.left.left.left = new Node("Homo sapiens");
+          root.left.left.right = new Node("Carnivora");
+          root.left.left.right.left = new Node("Canis lupus");
+          root.left.right = new Node("Aves");
+          root.left.right.left = new Node("Passeriformes");
+          root.left.right.left.left = new Node("Corvus corax");
+          return root;
+        }
+        
+        function convertToTreeNode(Node: Node | null): any {
+          if (Node === null) return null;
+          return {
+            value: Node.data.toString(),
+            children: [
+              convertToTreeNode(Node.left),
+              convertToTreeNode(Node.right)
+            ].filter(n => n !== null)
+          };
+        }
+        
+        const rootNode = createTree();
+      `;
+      
+      // Combina o código base, o código do usuário e a conversão
+      const fullCode = baseCode + userCode + `
+        foundNodeValue = targetNode ? targetNode.data : null;
+        convertToTreeNode(rootNode);
+      `;
+      
+      // Transpila TypeScript para JavaScript
+      const compiledCode = ts.transpile(fullCode);
+      
+      // Executa o código completo
+      currentTree = eval(compiledCode);
+      
+      outputDiv.innerHTML = "";
+      if (currentTree) renderTreeD3(currentTree, outputDiv);
+      
+      // Verifica se a busca funcionou corretamente
+      if (foundNodeValue === "Canis lupus") {
+      celebrationDiv.style.display = "block";
+      celebrationDiv.innerHTML = `
+        <div style="font-size: 4rem; margin-bottom: 2rem;">🎉 PARABÉNS! 🎉</div>
+        <div style="font-size: 2rem;">Você encontrou o Canis lupus!</div>
+        <div style="font-size: 3rem; margin-top: 2rem;">🎆 🌟 🏆</div>
+        <button onclick="this.parentElement.style.display='none'" 
+                style="margin-top: 2rem; padding: 1rem 2rem; font-size: 1.5rem; cursor: pointer;">
+          Continuar
+        </button>
+      `;
+      } else {
+        celebrationDiv.style.display = "block";
+        celebrationDiv.innerHTML = "❌ O nó 'Canis lupus' não foi encontrado. Verifique sua implementação. ❌";
+        celebrationDiv.style.color = "red";
+      }
+    } catch (error) {
+      outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
+      celebrationDiv.style.display = "none";
+    }
+  });
+
+  // Função renderTreeD3 permanece a mesma
+  function renderTreeD3(tree, container) {
+    const width = 800;
+    const height = 400;
+    const verticalOffset = 50;
+
+    const svg = d3.select(container)
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height + verticalOffset);
+
+    const root = d3.hierarchy(tree);
+
+    const treeLayout = d3.tree().size([width, height - 100]);
+
+    treeLayout(root);
+
+    svg.selectAll(".link")
+      .data(root.links())
+      .enter()
+      .append("line")
+      .attr("class", "link")
+      .attr("x1", d => d.source.x)
+      .attr("y1", d => d.source.y + verticalOffset)
+      .attr("x2", d => d.target.x)
+      .attr("y2", d => d.target.y + verticalOffset)
+      .attr("stroke", "#ccc");
+
+    const nodes = svg.selectAll(".node")
+      .data(root.descendants())
+      .enter()
+      .append("g")
+      .attr("class", "node")
+      .attr("transform", d => `translate(${d.x},${d.y + verticalOffset})`);
+
+    nodes.append("circle")
+      .attr("r", 10)
+      .attr("fill", d => d.data.value === foundNodeValue ? "#ff0000" : "#69b3a2");
+
+    nodes.filter(d => d.data.value === foundNodeValue)
+      .append("rect")
+      .attr("x", -12)
+      .attr("y", -12)
+      .attr("width", 24)
+      .attr("height", 24)
+      .attr("fill", "none")
+      .attr("stroke", "#ff0000")
+      .attr("stroke-width", 2);
+
+    nodes.append("text")
+      .attr("dy", -15)
+      .attr("text-anchor", "middle")
+      .text(d => d.data.value || "Node");
+
+    nodes.on("mouseover", function (event, d) {
+      d3.select(this)
+        .select("circle")
+        .attr("fill", "#ff7f0e");
+    }).on("mouseout", function (event, d) {
+      const isFoundNode = d.data.value === foundNodeValue;
+      d3.select(this)
+        .select("circle")
+        .attr("fill", isFoundNode ? "#ff0000" : "#69b3a2");
+    });
+  }
+  </script>
