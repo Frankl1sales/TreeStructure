@@ -71,36 +71,113 @@ body {
     padding: 10px;
   }
   
+  /* Estilo para a celebração em tela cheia */
   .celebration {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    color: #fff;
-    font-size: 2rem;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.92);
+    color: #4aff72; /* Verde mais vibrante e moderno */
+    font-family: 'Arial', sans-serif;
+    z-index: 9999; /* Garante que fique acima de tudo */
+    overflow: hidden; /* Impede barra de rolagem durante a celebração */
+    
+    /* Centralização perfeita */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    padding-top: 20%;
-    z-index: 1000;
-    animation: celebrationAnimation 2s ease-in-out;
+    
+    /* Animação suave de entrada */
+    animation: celebrationEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .celebration-content {
+    max-width: 90%;
+    padding: 2rem;
+    animation: textFocus 0.8s ease-out;
   }
   
-  @keyframes celebrationAnimation {
+  @keyframes celebrationEntrance {
     0% {
-      font-size: 2rem;
+      opacity: 0;
+      backdrop-filter: blur(0px);
+    }
+    100% {
+      opacity: 1;
+      backdrop-filter: blur(4px);
+    }
+  }
+  
+  @keyframes textFocus {
+    0% {
+      transform: scale(0.8);
       opacity: 0;
     }
-    50% {
-      font-size: 5rem;
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  /* Melhorias no botão */
+  .continue-btn {
+    margin-top: 3rem;
+    padding: 1.2rem 2.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #4CAF50 0%, #2E8B57 100%);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.4s;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .continue-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #45a049 0%, #2E8B57 100%);
+  }
+  
+  .continue-btn:active {
+    transform: translateY(1px);
+  }
+  
+  /* Confetes melhorados */
+  .confetti {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(45deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f);
+    animation: confettiFall 3s linear forwards;
+    z-index: 10000;
+    border-radius: 50%;
+    opacity: 0.8;
+  }
+  
+  @keyframes confettiFall {
+    0% {
+      transform: translateY(-100px) rotate(0deg);
       opacity: 1;
     }
     100% {
-      font-size: 4rem;
-      opacity: 1;
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
     }
   }
+
+@keyframes fall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+  }
+}
   
   @media (max-width: 1200px) {
     .container {
@@ -131,7 +208,7 @@ body {
   button {
     display: inline-block;
     text-decoration: none;
-    background-color: #4CAF50;
+    background-color: #a1b0a1;
     color: white;
     padding: 10px 20px;
     border-radius: 5px;
@@ -190,19 +267,19 @@ body {
   /* Estilo para os blocos de código */
   .description pre {
     position: relative;
-    background-color: #f4f4f9;
+    background-color: #4CAF50;
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #ccc;
     overflow: auto;
     font-size: 1.1em;
-    color: #2c3e50;
+    color: white;
     text-align: left;
   }
   
 .description code {
   font-family: 'Courier New', Courier, monospace;
   font-size: 1.1em;
-  color: #34495e;
+  color: white;
 }
   

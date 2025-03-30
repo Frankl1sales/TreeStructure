@@ -120,9 +120,7 @@ const rootNode = createTree();
     <div id="output-container">
       <h2>Visualização da Árvore</h2>
       <div id="tree-output"></div>
-      <div class="celebration" id="celebration" style="display: none;">
-        🎆 Parabéns! Você acertou! 🎆
-      </div>
+      <div class="celebration" id="celebration" style="display: none;"></div>
     </div>
   </div>
 
@@ -245,13 +243,43 @@ const rootNode = createTree();
 
         // Verifica se a árvore criada corresponde à esperada
         const isCorrect = compareTrees(result, expectedTree);
-        
+        // Primeiro declare a função separadamente (fora do if/else)
+        function createConfetti() {
+          const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
+          
+          for (let i = 0; i < 150; i++) {
+            const confetti = document.createElement('div');
+            confetti.className = 'confetti';
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            confetti.style.width = (Math.random() * 10 + 5) + 'px';
+            confetti.style.height = confetti.style.width;
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            document.body.appendChild(confetti);
+            
+            // Remove os confetes após a animação
+            setTimeout(() => {
+              confetti.remove();
+            }, 5000);
+          }
+        }
         if (isCorrect) {
-          celebrationDiv.style.display = "block";
-          celebrationDiv.innerHTML = "🎆 Parabéns! A árvore está correta! 🎆";
-          celebrationDiv.style.color = "green";
+          celebrationDiv.style.display = "flex";
+          celebrationDiv.innerHTML = `
+            <div style="font-size: 4rem; margin-bottom: 1rem;">🌳 PARABÉNS! 🌳</div>
+            <div style="font-size: 2rem; margin-bottom: 2rem;">Você construiu a árvore corretamente!</div>
+            <div style="font-size: 3rem; margin: 1rem 0;">🎉 🌟 🎊</div>
+            <button class="continue-btn" onclick="this.parentElement.style.display='none'">
+              Continuar
+            </button>
+          `;
+          
+          // Adiciona confetes
+          createConfetti();
         } else {
-          celebrationDiv.style.display = "block";
+          celebrationDiv.style.display = "flex";
           celebrationDiv.innerHTML = `
             <div style="margin-bottom: 10px;">
               ❌ A árvore não corresponde à estrutura esperada. ❌
@@ -261,6 +289,11 @@ const rootNode = createTree();
               <img src="imageAtiv4.png" alt="Árvore Taxonômica Esperada" style="max-width: 100%; border: 1px solid #ccc; margin-top: 10px;">
               <p style="font-style: italic; margin-top: 5px;">Compare com sua solução acima</p>
             </div>
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
+            <button class="try-again-btn" onclick="location.reload()">
+              ↻ Tente Novamente
+            </button>
+          </div>
           `;
           celebrationDiv.style.color = "red";
         }

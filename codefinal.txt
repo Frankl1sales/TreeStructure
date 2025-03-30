@@ -1,4 +1,4 @@
-
+//Ativ4
 class Node {
   data: string;  // Aqui vai o nome do animal ou grupo de animais
   left: Node | null;
@@ -28,3 +28,4 @@ function createTree(): Node {
 // Criando a árvore 
 const rootNode = createTree();
   
+//Ativ5

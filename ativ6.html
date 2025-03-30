@@ -15,7 +15,7 @@
 
 <section class="description">
   <h2>Como Funciona a Atividade 🧩</h2>
-  <p>Nesta atividade, você vai ajudar a encontrar animais escondidos em uma árvore genealógica da floresta usando programação! 🕵️‍♂️🔍</p>
+  <p>Nesta atividade, você vai ajudar a encontrar e remover animais escondidos em uma árvore genealógica da floresta usando programação! 🕵️‍♂️🔍</p>
   
   <h3>🌲 A Árvore dos Animais</h3>
   <p>Imagine uma árvore onde cada galho representa um grupo de animais:</p>
@@ -37,7 +37,9 @@
   </code></pre>
 
   <h3>💻 Sua Missão de Programação</h3>
-  <p>🌳Você precisa corrigir o erro neste código para usar o nome correto (que é o mistério), que pode estar em qualquer ordem taxonômica.🎉</p>
+  <p>Você precisa implementar duas funções: 🌳<strong>Buscar</strong> um nó na árvore; ✂️ <strong>Remover</strong> um nó da árvore (quando encontrado) </p>
+  
+  <p>🌳Função para buscar na árvore taxonômica.🎉</p>
   <pre><code>
   // Implemente sua função de busca aqui
   function searchNode(root: Node | null, target: string): Node | null {
@@ -55,85 +57,107 @@
     const rightResult = searchNode(root.right, target);
     return rightResult;
   }
+  </code></pre>
+  <p>🌳Função para remover o nó na árvore taxonômica.🎉</p>
+  <pre><code>
+  // Implemente sua função de remoção aqui
+  function removeNode(root: Node | null, target: string): Node | null {
+    // 1º: Se a árvore estiver vazia, retorne null
+    if (root === null) return null;
+    
+    // 2º: Se o nó atual é o alvo, retorne null para removê-lo
+    if (root.data === target) return null;
+    
+    // 3º: Atualize os filhos recursivamente
+    root.left = removeNode(root.left, target);
+    root.right = removeNode(root.right, target);
+    
+    return root;
+  }
+  </code></pre>
+  <p>🌳Chamada das funções para buscar e remover o nó na árvore taxonômica.🎉</p>
+  <p><strong>⚠️ IMPORTANTE:</strong> Encontre o (chamado de <span style="color: red;">nó correto</span>) ! 🧬🌍</p>
 
-  // Depois chame a função para buscar um animal:
-  const targetNode = searchNode(rootNode, "Mammalia");
+  <pre><code>
+  // Primeiro busque o nó
+  const targetNode = searchNode(rootNode, "xxxxx");
+  
+  // Depois remova o nó (se encontrado)
+  if (targetNode) {
+    rootNode = removeNode(rootNode, "xxxxx");
+  }
   </code></pre>
 
-  <h3>📝 Passo a Passo</h3>
+
+  <h3>📝 Passo a Passo para Remoção</h3>
   <ol>
-    <li>A função recebe a <strong>raiz da árvore</strong> e o <strong>nome do animal</strong> a ser encontrado</li>
+    <li>A função recebe a <strong>raiz da árvore</strong> e o <strong>nome do animal</strong> a ser removido</li>
     <li>Ela verifica se o animal está no nó atual</li>
-    <li>Se não estiver, procura nos galhos da esquerda e depois da direita</li>
-    <li>Quando encontrar, retorna o nó com o animal</li>
+    <li>Se for o alvo, retorna null para removê-lo</li>
+    <li>Se não for, atualiza os filhos esquerdo e direito recursivamente</li>
   </ol>
 
-  <h3>🌟 Dica Importante</h3>
-  <p>A função chama a si mesma para procurar nos galhos - isso se chama <strong>RECURSÃO</strong>! É como se você pedisse para um amigo procurar em cada parte da árvore.</p>
-
   <div class="tip">
-    <p>🔹 Se acertar, aparecerá um quadrado vermelho no animal encontrado!</p>
+    <p>🔹 Se acertar, o nó será removido da visualização!</p>
     <p>🔹 Se errar, o computador vai te avisar para tentar de novo!</p>
   </div>
+  <!-- Script para adicionar o botão de cópia em todos os blocos de código -->
+  <script>
+    document.querySelectorAll('pre code').forEach((codeBlock, index) => {
+      // Criando o botão de copiar para cada bloco de código
+      const copyButton = document.createElement('button');
+      copyButton.innerText = '📋';
+      copyButton.classList.add('copy-btn');
+      copyButton.setAttribute('onclick', `copyCode(${index})`);
 
-    <!-- Script para adicionar o botão de cópia em todos os blocos de código -->
-    <script>
-      document.querySelectorAll('pre code').forEach((codeBlock, index) => {
-        // Criando o botão de copiar para cada bloco de código
-        const copyButton = document.createElement('button');
-        copyButton.innerText = '📋';
-        copyButton.classList.add('copy-btn');
-        copyButton.setAttribute('onclick', `copyCode(${index})`);
-  
-        // Adicionando o botão ao bloco de código
-        codeBlock.parentElement.appendChild(copyButton);
-      });
-  
-      function copyCode(index) {
-        const code = document.querySelectorAll('pre code')[index];
-        const range = document.createRange();
-        range.selectNode(code);
-        window.getSelection().removeAllRanges();
-        window.getSelection().addRange(range);
-  
-        try {
-          // Tenta copiar para a área de transferência
-          document.execCommand('copy');
-        } catch (err) {
-          console.error('Falha ao copiar o código:', err);
-        }
-  
-        window.getSelection().removeAllRanges(); // Limpa a seleção
+      // Adicionando o botão ao bloco de código
+      codeBlock.parentElement.appendChild(copyButton);
+    });
+
+    function copyCode(index) {
+      const code = document.querySelectorAll('pre code')[index];
+      const range = document.createRange();
+      range.selectNode(code);
+      window.getSelection().removeAllRanges();
+      window.getSelection().addRange(range);
+
+      try {
+        // Tenta copiar para a área de transferência
+        document.execCommand('copy');
+      } catch (err) {
+        console.error('Falha ao copiar o código:', err);
       }
-  </script>
-  </section>
 
-  
-  <div class="container">
-    <div class="editor-container">
-      <div id="code-editor"></div>
-      <button id="run-code">Executar Código</button>
-    </div>
-    
-    <div id="output-container">
-      <h2>Visualização da Árvore</h2>
-      <div id="tree-output"></div>
-      <div class="celebration" id="celebration" style="display: none;">
-        🎆 Parabéns! Você acertou! 🎆
-      </div>
-    </div>
+      window.getSelection().removeAllRanges(); // Limpa a seleção
+    }
+</script>
+</section>
+
+<div class="container">
+  <div class="editor-container">
+    <div id="code-editor"></div>
+    <button id="run-code">Executar Código</button>
   </div>
   
-  <script>
-    let editor;
+  <div id="output-container">
+    <h2>Visualização da Árvore</h2>
+    <div id="tree-output"></div>
+    <div class="celebration" id="celebration" style="display: none;">
+      🎆 Parabéns! Você acertou! 🎆
+    </div>
+  </div>
+</div>
+
+<script>
+  let editor;
   let currentTree = null;
   let foundNodeValue = null;
+  let removedNodeValue = null;
   
   require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.47.0/min/vs' }});
   require(['vs/editor/editor.main'], function() {
     editor = monaco.editor.create(document.getElementById('code-editor'), {
       value: [
-        ''
       ].join('\n'),
       language: "typescript",
       theme: "vs-light",
@@ -197,69 +221,54 @@
           };
         }
         
-        const rootNode = createTree();
+        let rootNode = createTree();
       `;
       
       // Combina o código base, o código do usuário e a conversão
       const fullCode = baseCode + userCode + `
         foundNodeValue = targetNode ? targetNode.data : null;
-        convertToTreeNode(rootNode);
+        const originalTree = convertToTreeNode(createTree());
+        const modifiedTree = convertToTreeNode(rootNode);
+        currentTree = modifiedTree;
+        removedNodeValue = foundNodeValue;
       `;
       
       // Transpila TypeScript para JavaScript
       const compiledCode = ts.transpile(fullCode);
       
       // Executa o código completo
-      currentTree = eval(compiledCode);
+      eval(compiledCode);
       
       outputDiv.innerHTML = "";
-      if (currentTree) renderTreeD3(currentTree, outputDiv);
-      // Primeiro declare a função separadamente (fora do if/else)
-      function createConfetti() {
-          const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
-          
-          for (let i = 0; i < 150; i++) {
-            const confetti = document.createElement('div');
-            confetti.className = 'confetti';
-            confetti.style.left = Math.random() * 100 + 'vw';
-            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            confetti.style.width = (Math.random() * 10 + 5) + 'px';
-            confetti.style.height = confetti.style.width;
-            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
-            
-            document.body.appendChild(confetti);
-            
-            // Remove os confetes após a animação
-            setTimeout(() => {
-              confetti.remove();
-            }, 5000);
-          }
-        }
-      // Verifica se a busca funcionou corretamente
-      if (foundNodeValue === "Canis lupus") {
-      celebrationDiv.style.display = "flex";
-      celebrationDiv.innerHTML = `
-        <div style="font-size: 4rem; margin-bottom: 2rem;">🎉 PARABÉNS! 🎉</div>
-        <div style="font-size: 2rem;">Você encontrou o Canis lupus!</div>
-        <div style="font-size: 3rem; margin-top: 2rem;">🎆 🌟 🏆</div>
-        <button class="continue-btn" onclick="this.parentElement.style.display='none'">
+      if (currentTree) {
+        renderTreeD3(currentTree, outputDiv);
+        
+        // Verifica se o nó foi removido corretamente
+        const nodeStillExists = checkIfNodeExists(currentTree, "Canis lupus");
+        
+        if (!nodeStillExists) {
+          celebrationDiv.style.display = "flex";
+          celebrationDiv.innerHTML = `
+            <div style="font-size: 4rem; margin-bottom: 2rem;">🎉 PARABÉNS! 🎉</div>
+            <div style="font-size: 2rem;">Você removeu o Canis lupus corretamente!</div>
+            <div style="font-size: 3rem; margin-top: 2rem;">🎆 🌟 🏆</div>
+            <button class="continue-btn" onclick="this.parentElement.style.display='none'">
               Continuar
             </button>
-      `;
-        // Adiciona confetes
-        createConfetti();
-      } else {
-        celebrationDiv.style.display = "flex";
-        celebrationDiv.innerHTML = `
-          ❌ O nó 'Canis lupus' não foi encontrado. Verifique sua implementação. ❌ 
-        <div style="margin-top: 30px; display: flex; gap: 20px;">
-            <button class="try-again-btn" onclick="location.reload()">
-              ↻ Tente Novamente
-            </button>
-          </div> `;
-        celebrationDiv.style.color = "red";
-        
+          `;
+          createConfetti();
+        } else {
+          celebrationDiv.style.display = "flex";
+          celebrationDiv.innerHTML = `
+            ❌ O nó 'Canis lupus' ainda está na árvore. Verifique sua implementação de remoção. ❌ 
+            <div style="margin-top: 30px; display: flex; gap: 20px;">
+              <button class="try-again-btn" onclick="location.reload()">
+                ↻ Tente Novamente
+              </button>
+            </div> 
+          `;
+          celebrationDiv.style.color = "red";
+        }
       }
     } catch (error) {
       outputDiv.innerHTML = `<span style="color: red;">Erro: ${error.message}</span>`;
@@ -267,7 +276,38 @@
     }
   });
 
-  // Função renderTreeD3 permanece a mesma
+  function checkIfNodeExists(tree, target) {
+    if (!tree) return false;
+    if (tree.value === target) return true;
+    if (tree.children) {
+      for (const child of tree.children) {
+        if (checkIfNodeExists(child, target)) return true;
+      }
+    }
+    return false;
+  }
+
+  function createConfetti() {
+    const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff', '#fff'];
+    
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+      confetti.style.width = (Math.random() * 10 + 5) + 'px';
+      confetti.style.height = confetti.style.width;
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      
+      document.body.appendChild(confetti);
+      
+      setTimeout(() => {
+        confetti.remove();
+      }, 5000);
+    }
+  }
+
   function renderTreeD3(tree, container) {
     const width = 600;
     const height = 300;
@@ -304,9 +344,9 @@
 
     nodes.append("circle")
       .attr("r", 10)
-      .attr("fill", d => d.data.value === foundNodeValue ? "#ff0000" : "#69b3a2");
+      .attr("fill", d => d.data.value === removedNodeValue ? "#ff0000" : "#69b3a2");
 
-    nodes.filter(d => d.data.value === foundNodeValue)
+    nodes.filter(d => d.data.value === removedNodeValue)
       .append("rect")
       .attr("x", -12)
       .attr("y", -12)
@@ -326,10 +366,11 @@
         .select("circle")
         .attr("fill", "#ff7f0e");
     }).on("mouseout", function (event, d) {
-      const isFoundNode = d.data.value === foundNodeValue;
+      const isRemovedNode = d.data.value === removedNodeValue;
       d3.select(this)
         .select("circle")
-        .attr("fill", isFoundNode ? "#ff0000" : "#69b3a2");
+        .attr("fill", isRemovedNode ? "#ff0000" : "#69b3a2");
     });
   }
-  </script>
+</script>
+</html>
