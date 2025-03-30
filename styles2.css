@@ -179,13 +179,15 @@ to {
 }
 }
 
-@media (max-width: 1200px) {
+/* Responsividade */
+@media (max-width: 768px) {
   .container {
     flex-direction: column;
   }
-  
-  .editor-container, #output-container {
-    min-width: 100%;
+
+  .editor-container {
+    margin-right: 0;
+    margin-bottom: 20px;
   }
 }
 
