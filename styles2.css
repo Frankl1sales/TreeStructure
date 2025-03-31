@@ -179,17 +179,43 @@ to {
 }
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+/* Base do layout, com containers lado a lado */
+.container {
+  display: flex;
+  gap: 20px; /* Espaçamento entre os elementos */
+  flex-wrap: wrap; /* Permite que os itens se ajustem para a linha seguinte em telas menores */
+}
+
+.editor-container, #output-container {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  flex: 1; /* Garante que eles ocupem o mesmo espaço disponível */
+  min-width: 480px; /* Garantir que não fiquem muito pequenos */
+  max-width: 600px; /* Limita o tamanho máximo */
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 1200px) {
   .container {
-    flex-direction: column;
+    flex-direction: column; /* Empilha os containers em telas menores */
   }
 
-  .editor-container {
-    margin-right: 0;
-    margin-bottom: 20px;
+  .editor-container, #output-container {
+    flex: none; /* Impede que eles ocupem o máximo de largura disponível */
+    width: 100%; /* Aumenta para 100% da largura disponível */
+    max-width: none; /* Remove qualquer limite de max-width para telas pequenas */
   }
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+  .editor-container, #output-container {
+    padding: 10px; /* Ajusta o padding para telas menores */
+  }
+}
+
 
 body {
   font-family: Arial, sans-serif;
